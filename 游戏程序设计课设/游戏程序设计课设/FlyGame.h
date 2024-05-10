@@ -118,7 +118,4 @@ public:
 	bool TouziPosClicked();
 	int AiDoChoice();
 	bool IsPlayerTurn();
-
 };
-
-
