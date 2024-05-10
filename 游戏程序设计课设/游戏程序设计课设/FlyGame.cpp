@@ -517,7 +517,6 @@ void Game::Input()
 											soundjump.play();
 										}
 									}
-
 									qiziBuxingTime = true;
 									//cout << "chh" << n << endl;
 								}
@@ -550,8 +549,6 @@ void Game::Draw()
 		sBackBegin.setPosition(0, 0);
 		window.draw(sBackBegin);//绘制背景
 
-
-
 		if (isChange == false) {
 			sBeginButton.setTexture(tBeginButton1);//绘制开始按钮
 		}
@@ -572,7 +569,6 @@ void Game::Draw()
 	///游戏进行界面
 	if (GamePlay == true)
 	{
-
 		DrawPlay();
 		if (touziTime == true && touziInitial == true)//骰子时间并且骰子已初始化
 		{
@@ -633,7 +629,6 @@ void Game::touziDraw()//绘制骰子
 			touziTime = false;
 			if (touziTime == false && touziNum != 5 && QiziA[PlayerNum][0].isHome == true && QiziA[PlayerNum][1].isHome == true && QiziA[PlayerNum][2].isHome == true && QiziA[PlayerNum][3].isHome == true)
 			{
-
 				touziTime = true;
 				do
 				{
@@ -655,7 +650,6 @@ void Game::touziDraw()//绘制骰子
 		window.draw(s_touzi2);
 		TouziFlash_n++;
 	}
-
 }
 void Game::DrawPlay()
 {
@@ -703,7 +697,6 @@ void Game::DrawPlay()
 					}
 					sQizi[i].setPosition(QiziHomePos1[i][j][0], QiziHomePos1[i][j][1]);
 					window.draw(sQizi[i]);
-
 				}
 				else//在门口
 				{
@@ -735,7 +728,6 @@ void Game::DrawPlay()
 					}
 					else
 					{
-
 						sQizi[i].setPosition(QiziHomePos1[i][j][0], QiziHomePos1[i][j][1]);
 						window.draw(sQizi[i]);//玩家只有结束后棋子不给予投影，表示棋子任务已结束且不可点击操作
 					}
@@ -779,7 +771,5 @@ int Game::AiDoChoice() {
 		if (!QiziA[PlayerNum][i].isend && !QiziA[PlayerNum][i].isHome)
 			return i;
 	}
-
 	return -1;
-
 }
