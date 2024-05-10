@@ -1,11 +1,11 @@
-#include"FlyGame.h";
+ï»¿#include"FlyGame.h";
 Event event;
 
 Game::Game()
 {
 	Window_Width = 1080;
 	Window_Height = 720;
-	window.create(sf::VideoMode(Window_Width, Window_Height), L"ÁµÓë·ÉĞĞÆå");
+	window.create(sf::VideoMode(Window_Width, Window_Height), L"æ‹ä¸é£è¡Œæ£‹");
 }
 
 Game::~Game()
@@ -19,11 +19,11 @@ void Game::Initial()
 	window.setFramerateLimit(60);
 
 	isChange = false;
-	gameQuit = false;//ÓÎÏ·Î´ÍË³ö
-	gameOver = false;//ÓÎÏ·Î´½áÊø
-	GameStart = true;//ÓÎÏ·ÔÚ³õÊ¼³¡¾°
-	GamePlay = false; //²»ÔÚÓÎÏ·³¡¾°
-	GameEnd = false;//²»ÔÚ½áÊø³¡¾°
+	gameQuit = false;//æ¸¸æˆæœªé€€å‡º
+	gameOver = false;//æ¸¸æˆæœªç»“æŸ
+	GameStart = true;//æ¸¸æˆåœ¨åˆå§‹åœºæ™¯
+	GamePlay = false; //ä¸åœ¨æ¸¸æˆåœºæ™¯
+	GameEnd = false;//ä¸åœ¨ç»“æŸåœºæ™¯
 	touziNum = 0;
 	touziNuml = 0;
 	LeftCoener.x = 612;
@@ -46,29 +46,29 @@ void Game::Initial()
 		WinPai[i] = -1;
 	}
 
-	///¿ªÊ¼½çÃæ
-	if (!tBackBegin.loadFromFile("data/images/bg3.jpg")) { cout << "³õÊ¼±³¾°ËØ²ÄÃ»ÓĞÕÒµ½" << endl; }
-	if (!tBeginButton1.loadFromFile("data/images/Begin1.png")) { cout << "¿ªÊ¼°´Å¥1Ã»ÓĞÕÒµ½" << endl; }
-	if (!tBeginButton2.loadFromFile("data/images/Begin2.png")) { cout << "¿ªÊ¼°´Å¥2Ã»ÓĞÕÒµ½" << endl; }
+	///å¼€å§‹ç•Œé¢
+	if (!tBackBegin.loadFromFile("data/images/bg3.jpg")) { cout << "åˆå§‹èƒŒæ™¯ç´ ææ²¡æœ‰æ‰¾åˆ°" << endl; }
+	if (!tBeginButton1.loadFromFile("data/images/Begin1.png")) { cout << "å¼€å§‹æŒ‰é’®1æ²¡æœ‰æ‰¾åˆ°" << endl; }
+	if (!tBeginButton2.loadFromFile("data/images/Begin2.png")) { cout << "å¼€å§‹æŒ‰é’®2æ²¡æœ‰æ‰¾åˆ°" << endl; }
 
-	///ÓÎÏ·½øĞĞ½çÃæ
-	if (!tBackPlay.loadFromFile("data/images/PlayBK08.jpg")) cout << "ÓÎÏ·³¡¾°ËØ²ÄÃ»ÓĞÕÒµ½" << endl;
-	if (!tToziBut.loadFromFile("data/images/QIZI4.png")) cout << "÷»×ÓËØ²ÄÃ»ÓĞÕÒµ½" << endl;
-	if (!tQizi1.loadFromFile("data/images/QZxm.png")) cout << "Æå×Ó1ËØ²ÄÃ»ÓĞÕÒµ½" << endl;
-	if (!tQizi2.loadFromFile("data/images/QZlzy.png")) cout << "Æå×Ó2ËØ²ÄÃ»ÓĞÕÒµ½" << endl;
-	if (!tQizi3.loadFromFile("data/images/QZzql.png")) cout << "Æå×Ó3ËØ²ÄÃ»ÓĞÕÒµ½" << endl;
-	if (!tQizi4.loadFromFile("data/images/QZbq.png")) cout << "Æå×Ó4ËØ²ÄÃ»ÓĞÕÒµ½" << endl;
-	if (!t_touzi.loadFromFile("data/images/tou1.jpg")) cout << "16÷»×ÓËØ²ÄÃ»ÓĞÕÒµ½" << endl;
-	if (!t_touzi2.loadFromFile("data/images/tou2.jpg")) cout << "Ğı×ªÆå×ÓËØ²ÄÃ»ÓĞÕÒµ½" << endl;
-	if (!ttouyin.loadFromFile("data/images/touyin.png")) cout << "Í¶Ó°ËØ²ÄÃ»ÓĞÕÒµ½" << endl;
-	if (!sbtouzi.loadFromFile("data/Audios/TZ.wav")) { cout << "÷»×ÓÒôÀÖÉùÃ»ÓĞÕÒµ½" << endl; }
-	if (!sbyeah.loadFromFile("data/Audios/yeah.wav")) { cout << "Æå×Ó½áÊø»Ø¼ÒÒôÀÖÉùÃ»ÓĞÕÒµ½" << endl; }
-	if (!bkMusic.openFromFile("data/Audios/ly68.wav")) { cout << "±³¾°ÒôÀÖÉùÃ»ÓĞÕÒµ½" << endl; }
-	if (!font.loadFromFile("data/Fonts/simsun.ttc")) cout << "×ÖÌåÃ»ÓĞÕÒµ½" << endl;
+	///æ¸¸æˆè¿›è¡Œç•Œé¢
+	if (!tBackPlay.loadFromFile("data/images/PlayBK08.jpg")) cout << "æ¸¸æˆåœºæ™¯ç´ ææ²¡æœ‰æ‰¾åˆ°" << endl;
+	if (!tToziBut.loadFromFile("data/images/QIZI4.png")) cout << "éª°å­ç´ ææ²¡æœ‰æ‰¾åˆ°" << endl;
+	if (!tQizi1.loadFromFile("data/images/QZxm.png")) cout << "æ£‹å­1ç´ ææ²¡æœ‰æ‰¾åˆ°" << endl;
+	if (!tQizi2.loadFromFile("data/images/QZlzy.png")) cout << "æ£‹å­2ç´ ææ²¡æœ‰æ‰¾åˆ°" << endl;
+	if (!tQizi3.loadFromFile("data/images/QZzql.png")) cout << "æ£‹å­3ç´ ææ²¡æœ‰æ‰¾åˆ°" << endl;
+	if (!tQizi4.loadFromFile("data/images/QZbq.png")) cout << "æ£‹å­4ç´ ææ²¡æœ‰æ‰¾åˆ°" << endl;
+	if (!t_touzi.loadFromFile("data/images/tou1.jpg")) cout << "16éª°å­ç´ ææ²¡æœ‰æ‰¾åˆ°" << endl;
+	if (!t_touzi2.loadFromFile("data/images/tou2.jpg")) cout << "æ—‹è½¬æ£‹å­ç´ ææ²¡æœ‰æ‰¾åˆ°" << endl;
+	if (!ttouyin.loadFromFile("data/images/touyin.png")) cout << "æŠ•å½±ç´ ææ²¡æœ‰æ‰¾åˆ°" << endl;
+	if (!sbtouzi.loadFromFile("data/Audios/TZ.wav")) { cout << "éª°å­éŸ³ä¹å£°æ²¡æœ‰æ‰¾åˆ°" << endl; }
+	if (!sbyeah.loadFromFile("data/Audios/yeah.wav")) { cout << "æ£‹å­ç»“æŸå›å®¶éŸ³ä¹å£°æ²¡æœ‰æ‰¾åˆ°" << endl; }
+	if (!bkMusic.openFromFile("data/Audios/ly68.wav")) { cout << "èƒŒæ™¯éŸ³ä¹å£°æ²¡æœ‰æ‰¾åˆ°" << endl; }
+	if (!font.loadFromFile("data/Fonts/simsun.ttc")) cout << "å­—ä½“æ²¡æœ‰æ‰¾åˆ°" << endl;
 	text.setFont(font);
 
-	//½áÊø³¡¾°
-	if (!tPaiHang.loadFromFile("data/images/PH.png")) { cout << "ÅÅĞĞ°ñËØ²ÄÃ»ÓĞÕÒµ½" << endl; }
+	//ç»“æŸåœºæ™¯
+	if (!tPaiHang.loadFromFile("data/images/PH.png")) { cout << "æ’è¡Œæ¦œç´ ææ²¡æœ‰æ‰¾åˆ°" << endl; }
 
 	sBackBegin.setTexture(tBackBegin);
 	sBeginButton.setTexture(tBeginButton1);
@@ -77,9 +77,9 @@ void Game::Initial()
 	stouyin.setTexture(ttouyin);
 	s_touzi.setTexture(t_touzi);   s_touzi2.setTexture(t_touzi2);
 	sPaiHang.setTexture(tPaiHang);
-	sQizi[0] = sQizi1;	sQizi[1] = sQizi2;	sQizi[2] = sQizi3;	sQizi[3] = sQizi4;//·½±ã
+	sQizi[0] = sQizi1;	sQizi[1] = sQizi2;	sQizi[2] = sQizi3;	sQizi[3] = sQizi4;//æ–¹ä¾¿
 
-	stouyin.setOrigin(10, 10);//ÉèÖÃÍ¶Ó°³õÊ¼Î»ÖÃÆ«ÒÆÁ¿
+	stouyin.setOrigin(10, 10);//è®¾ç½®æŠ•å½±åˆå§‹ä½ç½®åç§»é‡
 
 	soundfly.setBuffer(sbfly);
 	soundjump.setBuffer(sbjump);
@@ -87,7 +87,7 @@ void Game::Initial()
 	soundyeah.setBuffer(sbyeah);
 	soundtouzi.setBuffer(sbtouzi);
 
-	//¸ñ×ÓÎ»ÖÃ¶¨Òå³õÊ¼»¯Æ«ÒÆ£¨ÒòÎª´°¿Ú×ø±êÓëÍ¼Æ¬²»Ò»¶¨·ûºÏ£©
+	//æ ¼å­ä½ç½®å®šä¹‰åˆå§‹åŒ–åç§»ï¼ˆå› ä¸ºçª—å£åæ ‡ä¸å›¾ç‰‡ä¸ä¸€å®šç¬¦åˆï¼‰
 	for (int i = 0; i < 56 + 28 + 1; i++)
 	{
 		DPosition[i][0] -= 20;
@@ -97,13 +97,13 @@ void Game::Initial()
 
 void Game::QiziBuxing()
 {
-	for (int k = 0; k < 80; k++)//ÊıÖµ²»¹Ì¶¨£¬Ö»ÊÇÈÃËüÑ­»·Ò»ÏÂ£¬²»Ò»¶¨ºÃÓÃ£¬¿É¸Ä
+	for (int k = 0; k < 80; k++)//æ•°å€¼ä¸å›ºå®šï¼Œåªæ˜¯è®©å®ƒå¾ªç¯ä¸€ä¸‹ï¼Œä¸ä¸€å®šå¥½ç”¨ï¼Œå¯æ”¹
 	{
 
-		//µ±Æå×ÓÇ°½ø½áÊø
-		if (qizibuxingCount >= touziNum + touzinumPrex + 1)//Æå×ÓÇ°½ø²½ÊıµÈÓÚ÷»×ÓÊıÓëÌøÆå·ÉÆåÊı
+		//å½“æ£‹å­å‰è¿›ç»“æŸ
+		if (qizibuxingCount >= touziNum + touzinumPrex + 1)//æ£‹å­å‰è¿›æ­¥æ•°ç­‰äºéª°å­æ•°ä¸è·³æ£‹é£æ£‹æ•°
 		{
-			//Èç¹ûÆå×Ó¸Õ¸ÕºÃµ½´ïÖÕµã
+			//å¦‚æœæ£‹å­åˆšåˆšå¥½åˆ°è¾¾ç»ˆç‚¹
 			if (QiziA[PlayerNum][qiziDianji].GePos == DITUSIZE + 7 * (PlayerNum)+6)
 			{
 				QiziA[PlayerNum][qiziDianji].isend = true;
@@ -111,48 +111,48 @@ void Game::QiziBuxing()
 				soundyeah.setVolume(60);
 				soundyeah.play();
 
-				cout << "Ò»Æå×Ó³É¹¦" << endl;
+				cout << "ä¸€æ£‹å­æˆåŠŸ" << endl;
 
-				//ÅĞ¶ÏÕóÓª½áÊø
+				//åˆ¤æ–­é˜µè¥ç»“æŸ
 				int wincount = 0;
 				for (int j = 0; j < 4; j++)
 				{
 					if (QiziA[PlayerNum][j].isend == true)
 						wincount++;
 				}
-				if (wincount == 4)//Èç¹ûÕû¸öÕóÓªËÄ¸öÆå×Ó¶¼½áÊø
+				if (wincount == 4)//å¦‚æœæ•´ä¸ªé˜µè¥å››ä¸ªæ£‹å­éƒ½ç»“æŸ
 				{
-					PlayerWin[PlayerNum] = true; //´ËÕóÓª½áÊø
-					cout << PlayerNum << "½áÊø" << endl;//²âÊÔ
-					WinPai[PlayerNum] = endNum; //´ËÕóÓªÅÅĞĞ
-					cout << "winpai" << PlayerNum << WinPai[PlayerNum] << "endnum" << endNum << endl;//²âÊÔ
+					PlayerWin[PlayerNum] = true; //æ­¤é˜µè¥ç»“æŸ
+					cout << PlayerNum << "ç»“æŸ" << endl;//æµ‹è¯•
+					WinPai[PlayerNum] = endNum; //æ­¤é˜µè¥æ’è¡Œ
+					cout << "winpai" << PlayerNum << WinPai[PlayerNum] << "endnum" << endNum << endl;//æµ‹è¯•
 					endNum++;
-					cout << "endnum" << endNum << endl;//²âÊÔ
+					cout << "endnum" << endNum << endl;//æµ‹è¯•
 				}
-				if (endNum == 3)//Èç¹û3¸öÕóÓª½áÊø
+				if (endNum == 3)//å¦‚æœ3ä¸ªé˜µè¥ç»“æŸ
 				{
 					for (int i = 0; i < 4; i++)
 					{
-						if (WinPai[i] == -1)//ÔòÊ£ÏÂÒ»¸öÎª×îºóÒ»Ãû
+						if (WinPai[i] == -1)//åˆ™å‰©ä¸‹ä¸€ä¸ªä¸ºæœ€åä¸€å
 							WinPai[i] = 3;
 					}
-					GameEnd = true;//ÓÎÏ·½øÈë½áÊø½çÃæ
+					GameEnd = true;//æ¸¸æˆè¿›å…¥ç»“æŸç•Œé¢
 				}
 			}
-			//ÅĞ¶Ïµş×Ó
+			//åˆ¤æ–­å å­
 			for (int k = 0; k < 4; k++)
 				if (QiziA[PlayerNum][k].GePos == QiziA[PlayerNum][qiziDianji].GePos || k != qiziDianji)
 					diezi++;
-			QiziA[PlayerNum][qiziDianji].diezishu = diezi;//´ËÆå×Óµş×Ó¸ß¶È
+			QiziA[PlayerNum][qiziDianji].diezishu = diezi;//æ­¤æ£‹å­å å­é«˜åº¦
 			diezi = 0;
-			QiziDianjiLock = false;//¿Éµã»÷ÏÂÒ»¸ö
-			touzinumPrex = 0;//ÌøÆå·ÉÆåÆ«ÒÆ»¹Ô­ÖÃÎª0
-			qiziBuxingTime = false;//Æå×Ó²½ĞĞÊ±¼ä½áÊø
-			qizibuxingCount = 0;//Æå×ÓÇ°½øÊı»¹Ô­ÖÃÎª0
+			QiziDianjiLock = false;//å¯ç‚¹å‡»ä¸‹ä¸€ä¸ª
+			touzinumPrex = 0;//è·³æ£‹é£æ£‹åç§»è¿˜åŸç½®ä¸º0
+			qiziBuxingTime = false;//æ£‹å­æ­¥è¡Œæ—¶é—´ç»“æŸ
+			qizibuxingCount = 0;//æ£‹å­å‰è¿›æ•°è¿˜åŸç½®ä¸º0
 
 			
-			touziTime = true;//÷»×ÓÊ±¼ä
-			if (touziNum != 5)//÷»×ÓÊı²»Îª6Ôò½øÈëÏÂÒ»Íæ¼Ò
+			touziTime = true;//éª°å­æ—¶é—´
+			if (touziNum != 5)//éª°å­æ•°ä¸ä¸º6åˆ™è¿›å…¥ä¸‹ä¸€ç©å®¶
 			{
 				do
 				{
@@ -160,12 +160,12 @@ void Game::QiziBuxing()
 						PlayerNum = 0;
 					else
 						PlayerNum++;
-				} while (PlayerWin[PlayerNum] == true);//ÈôÓĞÍæ¼Ò½áÊøÔòÌø¹ı¸ÃÍæ¼Ò
+				} while (PlayerWin[PlayerNum] == true);//è‹¥æœ‰ç©å®¶ç»“æŸåˆ™è·³è¿‡è¯¥ç©å®¶
 			}
 		}
 		if (k == 49)
 		{
-			//ÈôÆå×Óµ½´ïÖÕµã÷»×ÓÊı»¹Ã»×ßÍê£¬Ôò·µ»ØÊ£ÏÂµÄ²½Êı
+			//è‹¥æ£‹å­åˆ°è¾¾ç»ˆç‚¹éª°å­æ•°è¿˜æ²¡èµ°å®Œï¼Œåˆ™è¿”å›å‰©ä¸‹çš„æ­¥æ•°
 			if (QiziA[PlayerNum][qiziDianji].GePos == DITUSIZE + 7 * (PlayerNum)+6)
 			{
 				QiziA[PlayerNum][qiziDianji].GePos -= (touziNum + 1 - qizibuxingCount);
@@ -173,21 +173,21 @@ void Game::QiziBuxing()
 			}
 			else
 			{
-				//Æå×ÓÔÚ÷»×ÓÊıÖĞÇ°½øµ¥¸öµ¥¸öÇ°½ø
+				//æ£‹å­åœ¨éª°å­æ•°ä¸­å‰è¿›å•ä¸ªå•ä¸ªå‰è¿›
 				if (qizibuxingCount < touziNum + 1)
 				{
-					//½øÈëÖÕµãÂ·Ïß
+					//è¿›å…¥ç»ˆç‚¹è·¯çº¿
 					if (QiziA[PlayerNum][qiziDianji].GePos == QiziA[PlayerNum][qiziDianji].prex - 3)
 					{
 						QiziA[PlayerNum][qiziDianji].GePos = DITUSIZE + 7 * (PlayerNum);
 					}
-					//µ½ÆåÅÌ55Ê±ÔòÈÃÆä»Øµ½0£»
+					//åˆ°æ£‹ç›˜55æ—¶åˆ™è®©å…¶å›åˆ°0ï¼›
 					if (QiziA[PlayerNum][qiziDianji].GePos == 55)
 						QiziA[PlayerNum][qiziDianji].GePos = 0;
 					else
 						QiziA[PlayerNum][qiziDianji].GePos += 1;
 					qizibuxingCount++;
-					//½«¾­¹ıµÄÆå×Ó´ò»Ø(ÌøÆå·ÉÆå²»´ò»Ø)£¨ÔÚ²âÊÔµÄÊ±ºò¿ÉÒÔ×¢ÊÍ£¬ÈİÒ×ÍÏÂı²âÊÔËÙ¶È£©
+					//å°†ç»è¿‡çš„æ£‹å­æ‰“å›(è·³æ£‹é£æ£‹ä¸æ‰“å›)ï¼ˆåœ¨æµ‹è¯•çš„æ—¶å€™å¯ä»¥æ³¨é‡Šï¼Œå®¹æ˜“æ‹–æ…¢æµ‹è¯•é€Ÿåº¦ï¼‰
 					for (int m = 0; m < 4; m++)
 						for (int n = 0; n < 4; n++)
 						{
@@ -199,7 +199,7 @@ void Game::QiziBuxing()
 							}
 						}
 				}
-				//Æå×ÓÌøÆå»ò·ÉÆåÖ±½ÓÇ°½øÊ£ÏÂ²½Êı
+				//æ£‹å­è·³æ£‹æˆ–é£æ£‹ç›´æ¥å‰è¿›å‰©ä¸‹æ­¥æ•°
 				else
 				{
 					for (qizibuxingCount = touziNum + 1; qizibuxingCount < touziNum + 1 + touzinumPrex; qizibuxingCount++)
@@ -217,7 +217,7 @@ void Game::QiziBuxing()
 			}
 		}
 	}
-	//»æÖÆÍ¶Ó°ºÍÆå×Ó
+	//ç»˜åˆ¶æŠ•å½±å’Œæ£‹å­
 	stouyin.setPosition(DPosition[QiziA[PlayerNum][qiziDianji].GePos][0], DPosition[QiziA[PlayerNum][qiziDianji].GePos][1]);
 	window.draw(stouyin);
 	sQizi[PlayerNum].setPosition(DPosition[QiziA[PlayerNum][qiziDianji].GePos][0], DPosition[QiziA[PlayerNum][qiziDianji].GePos][1]);
@@ -232,7 +232,7 @@ void Game::Input()
 	}
 	while (window.pollEvent(event))
 	{
-		AITURNGOTO://AI»ØºÏÏÈÖ´ĞĞÒ»±é£¬ÔÚ´¦ÀíeventÊÂ¼ş¡£
+		AITURNGOTO://AIå›åˆå…ˆæ‰§è¡Œä¸€éï¼Œåœ¨å¤„ç†eventäº‹ä»¶ã€‚
 		if (event.type == Event::Closed) {
 			window.close();
 			gameQuit = true;
@@ -241,7 +241,7 @@ void Game::Input()
 			window.close();
 			gameQuit = true;
 		}
-		//±³¾°ÒôÁ¿¿ØÖÆ
+		//èƒŒæ™¯éŸ³é‡æ§åˆ¶
 		if (event.type == sf::Event::EventType::KeyReleased && event.key.code == sf::Keyboard::Up)
 		{
 			SoundVolume += 5;
@@ -252,7 +252,7 @@ void Game::Input()
 			SoundVolume -= 5;
 			bkMusic.setVolume(SoundVolume);
 		}
-		// ±³¾°ÒôÀÖ¿ª¹Ø
+		// èƒŒæ™¯éŸ³ä¹å¼€å…³
 		if (event.type == sf::Event::EventType::KeyReleased && event.key.code == sf::Keyboard::P)
 		{
 			if (MusicOn == true)
@@ -271,14 +271,14 @@ void Game::Input()
 
 			if (BeginButton.contains(event.mouseMove.x, event.mouseMove.y))
 			{
-				std::cout << "°´¼ü¾­¡®¿ªÊ¼¡¯ÉÏÒÆ¶¯" << std::endl;
+				std::cout << "æŒ‰é”®ç»â€˜å¼€å§‹â€™ä¸Šç§»åŠ¨" << std::endl;
 			}
 
 		}*/
 
 		if (BeginButton.contains(event.mouseMove.x, event.mouseMove.y))
 		{
-			//std::cout << "°´¼üÍ£ÁôÔÚ°´¼ü¡®¿ªÊ¼¡¯ÉÏ" << std::endl;
+			//std::cout << "æŒ‰é”®åœç•™åœ¨æŒ‰é”®â€˜å¼€å§‹â€™ä¸Š" << std::endl;
 			isChange = true;
 		}
 		else
@@ -287,79 +287,79 @@ void Game::Input()
 		}
 
 
-		if (GameStart == true)//³õÊ¼½çÃæÊäÈëÄ£¿é
+		if (GameStart == true)//åˆå§‹ç•Œé¢è¾“å…¥æ¨¡å—
 		{
 			if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
 				if (sf::Mouse::getPosition(window).x > 500 && sf::Mouse::getPosition(window).x < 600
 					&& sf::Mouse::getPosition(window).y >500 && sf::Mouse::getPosition(window).y < 620)
 				{
-					GameStart = false;//Ìø³ö³õÊ¼½çÃæ
-					GamePlay = true;//½øÈëÓÎÏ·½çÃæ
-					MusicOn = true;//ÅĞ¶ÏÒôÀÖ¿ªÊ¼£¨ÔİÊ±Ã»ÓÃ£©
-					bkMusic.setVolume(SoundVolume);//µ÷½ÚÒôÀÖÉù´óĞ¡
-					bkMusic.play();//±³¾°ÒôÀÖ²¥·Å
-					bkMusic.setLoop(true);//±³¾°ÒôÀÖÑ­»·
+					GameStart = false;//è·³å‡ºåˆå§‹ç•Œé¢
+					GamePlay = true;//è¿›å…¥æ¸¸æˆç•Œé¢
+					MusicOn = true;//åˆ¤æ–­éŸ³ä¹å¼€å§‹ï¼ˆæš‚æ—¶æ²¡ç”¨ï¼‰
+					bkMusic.setVolume(SoundVolume);//è°ƒèŠ‚éŸ³ä¹å£°å¤§å°
+					bkMusic.play();//èƒŒæ™¯éŸ³ä¹æ’­æ”¾
+					bkMusic.setLoop(true);//èƒŒæ™¯éŸ³ä¹å¾ªç¯
 				}
 		}
 
-		if (GamePlay == true)//ÓÎÏ·½çÃæÊäÈëÄ£¿é
+		if (GamePlay == true)//æ¸¸æˆç•Œé¢è¾“å…¥æ¨¡å—
 		{
-			if (touziTime == true && touziInitial == false)//÷»×ÓÊ±¼ä
+			if (touziTime == true && touziInitial == false)//éª°å­æ—¶é—´
 			{
-				if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left && TouziPosClicked() || !IsPlayerTurn())//×ó¼üµ¥»÷÷»×ÓÎ»ÖÃ 
+				if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left && TouziPosClicked() || !IsPlayerTurn())//å·¦é”®å•å‡»éª°å­ä½ç½® 
 				{
-					touzi();//½øĞĞ÷»×ÓÊıÖµ³õÊ¼»¯¼°¶¯»­
+					touzi();//è¿›è¡Œéª°å­æ•°å€¼åˆå§‹åŒ–åŠåŠ¨ç”»
 					soundtouzi.setVolume(40);
 					soundtouzi.play();
 					//cout << "chg" << endl;
 				}
 			}
-			if (touziTime == false)//²»Îª÷»×ÓÊ±¼ä£¬¿ÉÑ¡ÔñÆå×Ó½øĞĞ²½ĞĞ
+			if (touziTime == false)//ä¸ä¸ºéª°å­æ—¶é—´ï¼Œå¯é€‰æ‹©æ£‹å­è¿›è¡Œæ­¥è¡Œ
 			{
 				int AiChoice;
 				if (!IsPlayerTurn()) {
 					AiChoice = AiDoChoice();
 				}
-				for (int i = 0; i < 4; i++)//±¾»·½ÚËÄ¸öÆå×Ó¿ÉÑ¡Ôñ
+				for (int i = 0; i < 4; i++)//æœ¬ç¯èŠ‚å››ä¸ªæ£‹å­å¯é€‰æ‹©
 				{
-					//Èç¹ûÊÇAIµÄ»ØºÏ£¬ÅĞ¶ÏAIµÄÑ¡ÔñÊÇ·ñÊÇ¸ÃÆå×Ó£¬²»ÊÇµÄ»°continue;
+					//å¦‚æœæ˜¯AIçš„å›åˆï¼Œåˆ¤æ–­AIçš„é€‰æ‹©æ˜¯å¦æ˜¯è¯¥æ£‹å­ï¼Œä¸æ˜¯çš„è¯continue;
 					if (!IsPlayerTurn() && AiChoice != i) {
 						continue;
 					}
 
-					if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left || !IsPlayerTurn())//×ó¼üµ¥»÷ 
+					if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left || !IsPlayerTurn())//å·¦é”®å•å‡» 
 					{
-						//ÔÚ¼ÒÇÒ¸ÃÆå×ÓÎ´½áÊøÇÒ÷»×ÓÊıÎª6
+						//åœ¨å®¶ä¸”è¯¥æ£‹å­æœªç»“æŸä¸”éª°å­æ•°ä¸º6
 						if (QiziA[PlayerNum][i].isHome == true && QiziA[PlayerNum][i].isend == false && touziNum == 5)
 						{
-							if (sf::Mouse::getPosition(window).x > QiziHomePos1[PlayerNum][i][0] - 20 + 20 //µã»÷ÔÚ¼ÒÎ»ÖÃ
+							if (sf::Mouse::getPosition(window).x > QiziHomePos1[PlayerNum][i][0] - 20 + 20 //ç‚¹å‡»åœ¨å®¶ä½ç½®
 								&& sf::Mouse::getPosition(window).x < QiziHomePos1[PlayerNum][i][0] + 20 + 20
 								&& sf::Mouse::getPosition(window).y > QiziHomePos1[PlayerNum][i][1] - 20 + 20
 								&& sf::Mouse::getPosition(window).y < QiziHomePos1[PlayerNum][i][1] + 20 + 20
 								|| !IsPlayerTurn())
 							{
 
-								QiziA[PlayerNum][i].isHome = false;//ÔÚ¼Ò×´Ì¬±äÎª²»ÔÚ
-								QiziA[PlayerNum][i].isDoor = true;//ÃÅ¿Ú×´Ì¬±äÎªÔÚÃÅ¿Ú
-								touziTime = true;//¿ÉÔÙÍ¶Ò»´Î÷»×Ó£¨ÒòÎª¸Õ¸ÕÎª6£©
-								QiziA[PlayerNum][i].GePos = QiziA[PlayerNum][i].prex;//½«¸ÃÆå×ÓµÄ¸ñ×ÓÎ»ÖÃ±äÎªÃÅ¿ÚµÚÒ»¸öÎ»ÖÃ
+								QiziA[PlayerNum][i].isHome = false;//åœ¨å®¶çŠ¶æ€å˜ä¸ºä¸åœ¨
+								QiziA[PlayerNum][i].isDoor = true;//é—¨å£çŠ¶æ€å˜ä¸ºåœ¨é—¨å£
+								touziTime = true;//å¯å†æŠ•ä¸€æ¬¡éª°å­ï¼ˆå› ä¸ºåˆšåˆšä¸º6ï¼‰
+								QiziA[PlayerNum][i].GePos = QiziA[PlayerNum][i].prex;//å°†è¯¥æ£‹å­çš„æ ¼å­ä½ç½®å˜ä¸ºé—¨å£ç¬¬ä¸€ä¸ªä½ç½®
 								//cout << "chg" << i << endl;
 							}
 						}
 						else
 						{
-							//Æå×ÓÔÚ¼ÒÃÅ¿Ú
+							//æ£‹å­åœ¨å®¶é—¨å£
 							if (QiziA[PlayerNum][i].isDoor == true && QiziDianjiLock == false)
 							{
-								if (sf::Mouse::getPosition(window).x > DPosition[QiziA[PlayerNum][i].prex][0] + QiziA[PlayerNum][i].prex2[0] - 20 + 20 //Æå×ÓÔÚ¼ÒÃÅ¿ÚÎ»ÖÃ
-									&& sf::Mouse::getPosition(window).x < DPosition[QiziA[PlayerNum][i].prex][0] + QiziA[PlayerNum][i].prex2[0] + 20 + 20//(¼´¼ÒÃÅµÚÒ»¸ñ¼ÓÆ«ÒÆÁ¿)
+								if (sf::Mouse::getPosition(window).x > DPosition[QiziA[PlayerNum][i].prex][0] + QiziA[PlayerNum][i].prex2[0] - 20 + 20 //æ£‹å­åœ¨å®¶é—¨å£ä½ç½®
+									&& sf::Mouse::getPosition(window).x < DPosition[QiziA[PlayerNum][i].prex][0] + QiziA[PlayerNum][i].prex2[0] + 20 + 20//(å³å®¶é—¨ç¬¬ä¸€æ ¼åŠ åç§»é‡)
 									&& sf::Mouse::getPosition(window).y > DPosition[QiziA[PlayerNum][i].prex][1] + QiziA[PlayerNum][i].prex2[1] - 20 + 20
 									&& sf::Mouse::getPosition(window).y < DPosition[QiziA[PlayerNum][i].prex][1] + QiziA[PlayerNum][i].prex2[1] + 20 + 20
 									||!IsPlayerTurn())
 
 								{
 									//qiziDianji = i;
-									for (int k = 0; k < 4; k++)//ÅĞ¶ÏµşÆå
+									for (int k = 0; k < 4; k++)//åˆ¤æ–­å æ£‹
 									{
 										if (QiziA[PlayerNum][k].GePos == QiziA[PlayerNum][i].GePos || k != i)
 											diezi++;
@@ -374,43 +374,43 @@ void Game::Input()
 											n = m;
 										}
 									}
-									qiziDianji = n;//µşÆå×îÉÏ·½Ò»¸öÆå×Ó¿É½øÈë²½ĞĞ×´Ì¬
+									qiziDianji = n;//å æ£‹æœ€ä¸Šæ–¹ä¸€ä¸ªæ£‹å­å¯è¿›å…¥æ­¥è¡ŒçŠ¶æ€
 
-									QiziDianjiLock = true;//£¨²»Éè¶¨µÄ»°ÆäËûÍ¬Ê±ÔÚÃÅ¿ÚµÄÆå×ÓÒ²»á³öÃÅ£©
-									QiziA[PlayerNum][qiziDianji].isDoor = false;//ÃÅ¿Ú×´Ì¬±äÎª³öÃÅ
-									QiziA[PlayerNum][qiziDianji].GePos = QiziA[PlayerNum][qiziDianji].prex;//½«¸ÃÆå×ÓµÄ¸ñ×ÓÎ»ÖÃ±äÎªÃÅ¿ÚµÚÒ»¸öÎ»ÖÃ£¨µÚ¶ş´Î£©
-									//¿çÔ½µÚ55¸ñµÄÌøÆå
-									if (QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 > 55  //Èç¹û¼ÓÉÏ÷»×ÓÊıºóÔÚ55Ö®ºó£¬ÔòĞèÒª¼õÈ¥56²ÅÊÇÕı³£Æå×ÓÌøÆåÅĞ¶Ï£¬·ñÔò»áÓÃÖÕµãÂ·ÏßµÄÆå×ÓÑÕÉ«ÊıÖµÅĞ¶Ï
-										&& QiziA[PlayerNum][qiziDianji].GePos < 56)//ÍüÁËÎªÊ²Ã´ÒªÕâÃ´ÉèÖÃÁË
+									QiziDianjiLock = true;//ï¼ˆä¸è®¾å®šçš„è¯å…¶ä»–åŒæ—¶åœ¨é—¨å£çš„æ£‹å­ä¹Ÿä¼šå‡ºé—¨ï¼‰
+									QiziA[PlayerNum][qiziDianji].isDoor = false;//é—¨å£çŠ¶æ€å˜ä¸ºå‡ºé—¨
+									QiziA[PlayerNum][qiziDianji].GePos = QiziA[PlayerNum][qiziDianji].prex;//å°†è¯¥æ£‹å­çš„æ ¼å­ä½ç½®å˜ä¸ºé—¨å£ç¬¬ä¸€ä¸ªä½ç½®ï¼ˆç¬¬äºŒæ¬¡ï¼‰
+									//è·¨è¶Šç¬¬55æ ¼çš„è·³æ£‹
+									if (QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 > 55  //å¦‚æœåŠ ä¸Šéª°å­æ•°ååœ¨55ä¹‹åï¼Œåˆ™éœ€è¦å‡å»56æ‰æ˜¯æ­£å¸¸æ£‹å­è·³æ£‹åˆ¤æ–­ï¼Œå¦åˆ™ä¼šç”¨ç»ˆç‚¹è·¯çº¿çš„æ£‹å­é¢œè‰²æ•°å€¼åˆ¤æ–­
+										&& QiziA[PlayerNum][qiziDianji].GePos < 56)//å¿˜äº†ä¸ºä»€ä¹ˆè¦è¿™ä¹ˆè®¾ç½®äº†
 									{
-										if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 - 56] == PlayerNum)//ÅĞ¶ÏÊÇ·ñÌøÆå
+										if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 - 56] == PlayerNum)//åˆ¤æ–­æ˜¯å¦è·³æ£‹
 										{
 											touzinumPrex += 4;
 											soundjump.setVolume(40);
 											soundjump.play();
 										}
 									}
-									else//²»¿çÔ½55¸ñµÄÌøÆå
+									else//ä¸è·¨è¶Š55æ ¼çš„è·³æ£‹
 									{
-										if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1] == PlayerNum)//ÅĞ¶ÏÊÇ·ñÌøÆå
+										if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1] == PlayerNum)//åˆ¤æ–­æ˜¯å¦è·³æ£‹
 										{
 											touzinumPrex += 4;
 											soundjump.setVolume(40);
 											soundjump.play();
-											for (int k = touziNum + 2; k < touziNum + touzinumPrex + 2; k++)//ÌøÆåÂ·ÉÏÊÇ·ñÓĞ°×¸ñ£¬ÓĞ¾Í¼ÓÒ»¸ñ
+											for (int k = touziNum + 2; k < touziNum + touzinumPrex + 2; k++)//è·³æ£‹è·¯ä¸Šæ˜¯å¦æœ‰ç™½æ ¼ï¼Œæœ‰å°±åŠ ä¸€æ ¼
 											{
 												if (DColor[QiziA[PlayerNum][qiziDianji].GePos + k] == 9)
 													touzinumPrex++;
 											}
 										}
 									}
-									qiziBuxingTime = true;//½øÈë²½ĞĞÊ±¼ä
+									qiziBuxingTime = true;//è¿›å…¥æ­¥è¡Œæ—¶é—´
 								}
 							}
-							//Õı³£Â·ÉÏÆå×Ó£¬²»ÔÚ¼ÒÒ²²»ÔÚÃÅ¿Ú£¨Ğí¶à½âÎö¿É¸ù¾İÉÏ·½ÃÅ¿ÚµÄÊä³öÂß¼­£¬´ó²¿·ÖÒ»Ñù£©
+							//æ­£å¸¸è·¯ä¸Šæ£‹å­ï¼Œä¸åœ¨å®¶ä¹Ÿä¸åœ¨é—¨å£ï¼ˆè®¸å¤šè§£æå¯æ ¹æ®ä¸Šæ–¹é—¨å£çš„è¾“å‡ºé€»è¾‘ï¼Œå¤§éƒ¨åˆ†ä¸€æ ·ï¼‰
 							else
 							{
-								if (sf::Mouse::getPosition(window).x > DPosition[QiziA[PlayerNum][i].GePos][0] - 20 + 20//ÒÔÆå×ÓÎªÖĞĞÄÉÏÏÂ×óÓÒ·Ö±ğ20Îªµã»÷ÓĞĞ§·¶Î§
+								if (sf::Mouse::getPosition(window).x > DPosition[QiziA[PlayerNum][i].GePos][0] - 20 + 20//ä»¥æ£‹å­ä¸ºä¸­å¿ƒä¸Šä¸‹å·¦å³åˆ†åˆ«20ä¸ºç‚¹å‡»æœ‰æ•ˆèŒƒå›´
 									&& sf::Mouse::getPosition(window).x < DPosition[QiziA[PlayerNum][i].GePos][0] + 20 + 20
 									&& sf::Mouse::getPosition(window).y > DPosition[QiziA[PlayerNum][i].GePos][1] - 20 + 20
 									&& sf::Mouse::getPosition(window).y < DPosition[QiziA[PlayerNum][i].GePos][1] + 20 + 20
@@ -418,7 +418,7 @@ void Game::Input()
 								{
 									touzinumPrex = 0;
 									int n = i;
-									for (int m = i; m < 4; m++)//ÅĞ¶ÏµşÆå
+									for (int m = i; m < 4; m++)//åˆ¤æ–­å æ£‹
 									{
 										if (QiziA[PlayerNum][m].diezishu > QiziA[PlayerNum][n].diezishu)
 										{
@@ -426,10 +426,10 @@ void Game::Input()
 										}
 									}
 									qiziDianji = n;
-									//¿çÔ½55¸ñµÄÌøÆå
+									//è·¨è¶Š55æ ¼çš„è·³æ£‹
 									if (QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 > 55 && QiziA[PlayerNum][qiziDianji].GePos < 56)
 									{
-										if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 - 56] == PlayerNum)//ÅĞ¶ÏÌøÆå
+										if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 - 56] == PlayerNum)//åˆ¤æ–­è·³æ£‹
 										{
 											touzinumPrex += 4;
 											soundjump.setVolume(40);
@@ -447,11 +447,11 @@ void Game::Input()
 											}
 										}
 									}
-									else//²»¿çÔ½55¸ñµÄÌøÆå
+									else//ä¸è·¨è¶Š55æ ¼çš„è·³æ£‹
 									{
-										if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1] == PlayerNum &&  //ÅĞ¶ÏÌøÆå
-											(QiziA[PlayerNum][qiziDianji].GePos< QiziA[PlayerNum][qiziDianji].prex - 6 || //ÕâÀïµÄÅĞ¶ÏÊÇÎªÁË±ÜÃâÖÕµãÈë¿Ú¸½½ü¼ÓÁËtouzinumºóÓÃÖÕµãÁíÒ»±ßµÄÑÕÉ«ÊıÖµ
-												QiziA[PlayerNum][qiziDianji].GePos > QiziA[PlayerNum][qiziDianji].prex - 2))//ÒòÎªÒÔÆåÅÌÎªÒ»È¦¶ø²»ÊÇÖ±½ÓÁ¬ÉÏÖÕµãËùÒÔĞèÒªÕâÑùÉèÖÃ
+										if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1] == PlayerNum &&  //åˆ¤æ–­è·³æ£‹
+											(QiziA[PlayerNum][qiziDianji].GePos< QiziA[PlayerNum][qiziDianji].prex - 6 || //è¿™é‡Œçš„åˆ¤æ–­æ˜¯ä¸ºäº†é¿å…ç»ˆç‚¹å…¥å£é™„è¿‘åŠ äº†touzinumåç”¨ç»ˆç‚¹å¦ä¸€è¾¹çš„é¢œè‰²æ•°å€¼
+												QiziA[PlayerNum][qiziDianji].GePos > QiziA[PlayerNum][qiziDianji].prex - 2))//å› ä¸ºä»¥æ£‹ç›˜ä¸ºä¸€åœˆè€Œä¸æ˜¯ç›´æ¥è¿ä¸Šç»ˆç‚¹æ‰€ä»¥éœ€è¦è¿™æ ·è®¾ç½®
 										{
 											touzinumPrex += 4;
 											soundjump.setVolume(40);
@@ -461,7 +461,7 @@ void Game::Input()
 												if (DColor[QiziA[PlayerNum][qiziDianji].GePos + k] == 9)
 													touzinumPrex++;
 											}
-											//ÅĞ¶Ï·ÉÆå¸ñÊÇ·ñ¿çÔ½55¸ñ
+											//åˆ¤æ–­é£æ£‹æ ¼æ˜¯å¦è·¨è¶Š55æ ¼
 											if (QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 + touzinumPrex > 55 && QiziA[PlayerNum][qiziDianji].GePos < 56)
 											{
 												if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 + touzinumPrex - 56] == PlayerNum + 4)
@@ -482,10 +482,10 @@ void Game::Input()
 											}
 										}
 									}
-									//¿çÔ½55¸ñµÄ·ÉÆå£¨ÒòÎª³öÃÅÃ»ÓĞ·ÉÆåËùÒÔ³öÃÅÊä³öÄ£¿éÃ»ÓĞÉèÖÃ£©
+									//è·¨è¶Š55æ ¼çš„é£æ£‹ï¼ˆå› ä¸ºå‡ºé—¨æ²¡æœ‰é£æ£‹æ‰€ä»¥å‡ºé—¨è¾“å‡ºæ¨¡å—æ²¡æœ‰è®¾ç½®ï¼‰
 									if (QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 > 55 && QiziA[PlayerNum][qiziDianji].GePos < 56)
 									{
-										if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 - 56] == PlayerNum + 4)//ÅĞ¶Ï·ÉÆå
+										if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 - 56] == PlayerNum + 4)//åˆ¤æ–­é£æ£‹
 										{
 											touzinumPrex += 17;
 											soundfly.setVolume(40);
@@ -494,9 +494,9 @@ void Game::Input()
 											soundjump.play();
 										}
 									}
-									else//²»¿çÔ½55¸ñµÄ·ÉÆå
+									else//ä¸è·¨è¶Š55æ ¼çš„é£æ£‹
 									{
-										if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1] == PlayerNum + 4)//ÅĞ¶Ï·ÉÆå
+										if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1] == PlayerNum + 4)//åˆ¤æ–­é£æ£‹
 										{
 											touzinumPrex += 17;
 											soundfly.play();
@@ -521,9 +521,9 @@ void Game::Input()
 
 void Game::Draw()
 {
-	//ÏëÊä³öÏÖÔÚÂÖ»ØµÄÎÄ×Ö£¬Î´³É¹¦£¨ÎÊÌâ£©
+	//æƒ³è¾“å‡ºç°åœ¨è½®å›çš„æ–‡å­—ï¼ŒæœªæˆåŠŸï¼ˆé—®é¢˜ï¼‰
 	text.setCharacterSize(120);
-	text.setString(L"ÏÖÔÚÂÖ»Ø");
+	text.setString(L"ç°åœ¨è½®å›");
 	text.setFillColor(Color(255, 255, 0, 255));
 	text.setOrigin(100, 25);
 	text.setPosition(300, 50);
@@ -535,12 +535,12 @@ void Game::Draw()
 
 		sBackBegin.setTexture(tBackBegin);
 		sBackBegin.setPosition(0, 0);
-		window.draw(sBackBegin);//»æÖÆ±³¾°
+		window.draw(sBackBegin);//ç»˜åˆ¶èƒŒæ™¯
 
 
 
 		if (isChange == false) {
-			sBeginButton.setTexture(tBeginButton1);//»æÖÆ¿ªÊ¼°´Å¥
+			sBeginButton.setTexture(tBeginButton1);//ç»˜åˆ¶å¼€å§‹æŒ‰é’®
 		}
 		else
 		{
@@ -556,16 +556,16 @@ void Game::Draw()
 		window.draw(sBeginButton);
 	}
 
-	///ÓÎÏ·½øĞĞ½çÃæ
+	///æ¸¸æˆè¿›è¡Œç•Œé¢
 	if (GamePlay == true)
 	{
 
 		DrawPlay();
-		if (touziTime == true && touziInitial == true)//÷»×ÓÊ±¼ä²¢ÇÒ÷»×ÓÒÑ³õÊ¼»¯
+		if (touziTime == true && touziInitial == true)//éª°å­æ—¶é—´å¹¶ä¸”éª°å­å·²åˆå§‹åŒ–
 		{
-			touziDraw();//»æÖÆ÷»×ÓÖ¡¶¯»­
+			touziDraw();//ç»˜åˆ¶éª°å­å¸§åŠ¨ç”»
 		}
-		else//²»ÊÇ÷»×ÓÊ±¼ä£¬»­¾²Ö¹µÄ¾Í¿É
+		else//ä¸æ˜¯éª°å­æ—¶é—´ï¼Œç”»é™æ­¢çš„å°±å¯
 		{
 			s_touzi.setTextureRect(IntRect(touziNum * ButtonWidth, 0, ButtonWidth, ButtonHeight));
 			s_touzi.setPosition(530, 330);
@@ -575,14 +575,14 @@ void Game::Draw()
 
 	if (GameEnd == true)
 	{
-		sPaiHang.setPosition(436, 160);//»æÖÆÅÅĞĞ°ñÍ¼Æ¬
+		sPaiHang.setPosition(436, 160);//ç»˜åˆ¶æ’è¡Œæ¦œå›¾ç‰‡
 		window.draw(sPaiHang);
 
 		for (int i = 0; i < 4; i++)
 		{
-			sQizi[i].setScale(1.4, 1.4);//·Å´ó
-			sQizi[i].setOrigin(0, 0);//»¹Ô­³õÊ¼Æ«ÒÆ£¨ÒòÎªdrawplayÖĞ»æÖÆÆå×Ó»áÓĞ³õÊ¼Æ«ÒÆ£©
-			sQizi[i].setPosition(570, 275 + WinPai[i] * 60);//¸ù¾İÅÅÃû»æÖÆ²»Í¬yÖµµÄÎ»ÖÃ
+			sQizi[i].setScale(1.4, 1.4);//æ”¾å¤§
+			sQizi[i].setOrigin(0, 0);//è¿˜åŸåˆå§‹åç§»ï¼ˆå› ä¸ºdrawplayä¸­ç»˜åˆ¶æ£‹å­ä¼šæœ‰åˆå§‹åç§»ï¼‰
+			sQizi[i].setPosition(570, 275 + WinPai[i] * 60);//æ ¹æ®æ’åç»˜åˆ¶ä¸åŒyå€¼çš„ä½ç½®
 
 			window.draw(sQizi[i]);
 		}
@@ -590,7 +590,7 @@ void Game::Draw()
 	window.display();
 }
 
-void Game::touzi()//³õÊ¼»¯÷»×ÓÊı
+void Game::touzi()//åˆå§‹åŒ–éª°å­æ•°
 {
 	srand(time(NULL));
 	touziNuml = touziNum;
@@ -604,10 +604,10 @@ void Game::touzi()//³õÊ¼»¯÷»×ÓÊı
 	}
 	touziInitial = true;
 }
-void Game::touziDraw()//»æÖÆ÷»×Ó
+void Game::touziDraw()//ç»˜åˆ¶éª°å­
 
 {
-	if (TouziFlash_n == 0 || TouziFlash_n == 20)//¿ªÊ¼Ò»Ö¡ºÍ½áÊøÒ»Ö¡
+	if (TouziFlash_n == 0 || TouziFlash_n == 20)//å¼€å§‹ä¸€å¸§å’Œç»“æŸä¸€å¸§
 	{
 		if (TouziFlash_n == 0)
 		{
@@ -628,14 +628,14 @@ void Game::touziDraw()//»æÖÆ÷»×Ó
 						PlayerNum = 0;
 					else
 						PlayerNum++;
-				} while (PlayerWin[PlayerNum] == true);//ÈôÓĞÍæ¼Ò½áÊøÔòÌø¹ı¸ÃÍæ¼Ò
+				} while (PlayerWin[PlayerNum] == true);//è‹¥æœ‰ç©å®¶ç»“æŸåˆ™è·³è¿‡è¯¥ç©å®¶
 			}
 			touziInitial = false;
 		}
 		s_touzi.setPosition(530, 330);
 		window.draw(s_touzi);
 	}
-	else//¹ı³ÌĞı×ªĞ§¹û¹ı¶ÉÖ¡
+	else//è¿‡ç¨‹æ—‹è½¬æ•ˆæœè¿‡æ¸¡å¸§
 	{
 		s_touzi2.setTextureRect(IntRect(0, TouziFlash[TouziFlash_n] * ButtonWidth, ButtonWidth, ButtonHeight));
 		s_touzi2.setPosition(530, 330);
@@ -649,60 +649,60 @@ void Game::DrawPlay()
 	window.clear();
 	sBackPlay.setTexture(tBackPlay);
 	sBackPlay.setPosition(0, 0);
-	window.draw(sBackPlay);//»æÖÆÓÎÏ·³¡¾°
+	window.draw(sBackPlay);//ç»˜åˆ¶æ¸¸æˆåœºæ™¯
 
-	//»­Æå×Ó
+	//ç”»æ£‹å­
 	for (int i = 0; i < 4; i++)
 	{
-		if (i == PlayerNum && touziTime == false)//½«¸ÃÂÖ»ØÍæ¼ÒµÄÆå×Ó·Å´ó
+		if (i == PlayerNum && touziTime == false)//å°†è¯¥è½®å›ç©å®¶çš„æ£‹å­æ”¾å¤§
 		{
-			sQizi[PlayerNum].setOrigin(7, 7);//·Å´ó»áÓĞÆ«ÒÆ£¬ÉèÖÃ³õÊ¼Î»ÖÃÆ«ÒÆĞŞÕı
+			sQizi[PlayerNum].setOrigin(7, 7);//æ”¾å¤§ä¼šæœ‰åç§»ï¼Œè®¾ç½®åˆå§‹ä½ç½®åç§»ä¿®æ­£
 			sQizi[PlayerNum].setScale(1.3, 1.3);
 		}
 		else
 		{
-			sQizi[i].setScale(1, 1);//¸ÃÂÖ»Ø½áÊø»¹Ô­
+			sQizi[i].setScale(1, 1);//è¯¥è½®å›ç»“æŸè¿˜åŸ
 			sQizi[i].setOrigin(0, 0);
 		}
 		for (int j = 0; j < 4; j++)
 		{
-			if (QiziA[i][j].isHome == true || QiziA[i][j].isDoor == true)//ÔÚ¼Ò»òÔÚÃÅ¿Ú
+			if (QiziA[i][j].isHome == true || QiziA[i][j].isDoor == true)//åœ¨å®¶æˆ–åœ¨é—¨å£
 			{
-				if (QiziA[i][j].isHome == true)//ÔÚ¼Ò
+				if (QiziA[i][j].isHome == true)//åœ¨å®¶
 				{
 					if (i == PlayerNum && QiziA[i][j].isend == false && touziTime == false)
 					{
-						stouyin.setPosition(QiziHomePos1[i][j][0], QiziHomePos1[i][j][1]);//µ±Ç°Íæ¼ÒÆå×Ó¼ÓÍ¶Ó°
+						stouyin.setPosition(QiziHomePos1[i][j][0], QiziHomePos1[i][j][1]);//å½“å‰ç©å®¶æ£‹å­åŠ æŠ•å½±
 						window.draw(stouyin);
 					}
 					sQizi[i].setPosition(QiziHomePos1[i][j][0], QiziHomePos1[i][j][1]);
 					window.draw(sQizi[i]);
 
 				}
-				else//ÔÚÃÅ¿Ú
+				else//åœ¨é—¨å£
 				{
 					if (i == PlayerNum && touziTime == false)
 					{
 						stouyin.setPosition(DPosition[QiziA[i][j].prex][0] + QiziA[i][j].prex2[0], DPosition[QiziA[i][j].prex][1] + QiziA[i][j].prex2[1]);
-						window.draw(stouyin);//µ±Ç°Íæ¼ÒÆå×Ó¼ÓÍ¶Ó°
+						window.draw(stouyin);//å½“å‰ç©å®¶æ£‹å­åŠ æŠ•å½±
 					}
 					sQizi[i].setPosition(DPosition[QiziA[i][j].prex][0] + QiziA[i][j].prex2[0], DPosition[QiziA[i][j].prex][1] + QiziA[i][j].prex2[1]);
 					window.draw(sQizi[i]);
 				}
 			}
 
-			else//Â·ÉÏ»òÕß½áÊø»Ø¼Ò
+			else//è·¯ä¸Šæˆ–è€…ç»“æŸå›å®¶
 			{
-				if (i == PlayerNum && j == qiziDianji && qiziBuxingTime == true)//Ö»¶ÔÑ¡ÔñµÄÒ»¸öÆå×ÓÔÚ²½ĞĞÊ±¼ä½øĞĞ»æÖÆµ÷Õû£¬±ÜÃâÆäËûÆå×Ó³öÏÖÉÁË¸ÏÖÏó
+				if (i == PlayerNum && j == qiziDianji && qiziBuxingTime == true)//åªå¯¹é€‰æ‹©çš„ä¸€ä¸ªæ£‹å­åœ¨æ­¥è¡Œæ—¶é—´è¿›è¡Œç»˜åˆ¶è°ƒæ•´ï¼Œé¿å…å…¶ä»–æ£‹å­å‡ºç°é—ªçƒç°è±¡
 					QiziBuxing();
 				else
 				{
-					if (QiziA[i][j].isend == false)//Æå×ÓÎ´½áÊø»æÖÆÔÚÂ·ÉÏ
+					if (QiziA[i][j].isend == false)//æ£‹å­æœªç»“æŸç»˜åˆ¶åœ¨è·¯ä¸Š
 					{
 						if (i == PlayerNum && touziTime == false)
 						{
 							stouyin.setPosition(DPosition[QiziA[i][j].GePos][0], DPosition[QiziA[i][j].GePos][1]);
-							window.draw(stouyin);//µ±Ç°Íæ¼ÒÆå×Ó¼ÓÍ¶Ó°
+							window.draw(stouyin);//å½“å‰ç©å®¶æ£‹å­åŠ æŠ•å½±
 						}
 						sQizi[i].setPosition(DPosition[QiziA[i][j].GePos][0], DPosition[QiziA[i][j].GePos][1]);
 						window.draw(sQizi[i]);
@@ -711,7 +711,7 @@ void Game::DrawPlay()
 					{
 
 						sQizi[i].setPosition(QiziHomePos1[i][j][0], QiziHomePos1[i][j][1]);
-						window.draw(sQizi[i]);//Íæ¼ÒÖ»ÓĞ½áÊøºóÆå×Ó²»¸øÓèÍ¶Ó°£¬±íÊ¾Æå×ÓÈÎÎñÒÑ½áÊøÇÒ²»¿Éµã»÷²Ù×÷
+						window.draw(sQizi[i]);//ç©å®¶åªæœ‰ç»“æŸåæ£‹å­ä¸ç»™äºˆæŠ•å½±ï¼Œè¡¨ç¤ºæ£‹å­ä»»åŠ¡å·²ç»“æŸä¸”ä¸å¯ç‚¹å‡»æ“ä½œ
 					}
 				}
 			}
