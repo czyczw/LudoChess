@@ -149,6 +149,8 @@ void Game::QiziBuxing()
 			touzinumPrex = 0;//跳棋飞棋偏移还原置为0
 			qiziBuxingTime = false;//棋子步行时间结束
 			qizibuxingCount = 0;//棋子前进数还原置为0
+
+			
 			touziTime = true;//骰子时间
 			if (touziNum != 5)//骰子数不为6则进入下一玩家
 			{
@@ -230,7 +232,7 @@ void Game::Input()
 	}
 	while (window.pollEvent(event))
 	{
-		AITURNGOTO:
+		AITURNGOTO://AI回合先执行一遍，在处理event事件。
 		if (event.type == Event::Closed) {
 			window.close();
 			gameQuit = true;
