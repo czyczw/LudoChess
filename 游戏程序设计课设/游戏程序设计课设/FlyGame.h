@@ -7,19 +7,19 @@
 #include <time.h>
 using namespace sf;
 using namespace std;
-#define  DITUSIZE 56  //µØÍ¼Ò»È¦µÄ¸ñ×ÓÊı
-#define  GZSIZE 40  //Æå×Ó´óĞ¡
+#define  DITUSIZE 56  //åœ°å›¾ä¸€åœˆçš„æ ¼å­æ•°
+#define  GZSIZE 40  //æ£‹å­å¤§å°
 
-//Æå×ÓÀà¶¨Òå
+//æ£‹å­ç±»å®šä¹‰
 class Qizi {
 public:
-	int GePos;//´¦ÔÚµÄ¸ñ×Ó£¬
-	bool isHome; //ÊÇ·ñÔÚ¼Ò
-	bool isDoor;//ÊÇ·ñÔÚ¼ÒÃÅ¿Ú
-	int prex;//¼ÒÃÅµÚÒ»¸ö¸ñ×ÓÆ«ÒÆÁ¿
-	int prex2[2];//¼ÒÃÅÆ«ÒÆ
-	int diezishu;//µü×ÓÊı
-	bool isend;//ÊÇ·ñ½áÊø
+	int GePos;//å¤„åœ¨çš„æ ¼å­ï¼Œ
+	bool isHome; //æ˜¯å¦åœ¨å®¶
+	bool isDoor;//æ˜¯å¦åœ¨å®¶é—¨å£
+	int prex;//å®¶é—¨ç¬¬ä¸€ä¸ªæ ¼å­åç§»é‡
+	int prex2[2];//å®¶é—¨åç§»
+	int diezishu;//è¿­å­æ•°
+	bool isend;//æ˜¯å¦ç»“æŸ
 };
 
 class Game
@@ -28,32 +28,35 @@ public:
 	sf::RenderWindow window;
 	Game();
 	~Game();
-	bool GameStart, GamePlay, GameEnd;//¿ªÊ¼ÓÎÏ·½çÃæ£¬ÓÎÏ·½øĞĞ½çÃæ,ÓÎÏ·½áÊø½çÃæ
-	bool gameQuit, gameOver;  //ÓÎÏ·ÊÇ·ñ½áÊø
-	int Window_Width, Window_Height; //´°¿Ú´óĞ¡
-	Texture tBackBegin, tBeginButton1, tBeginButton2, tBackPlay, tToziBut, tQizi1, tQizi2, tQizi3, tQizi4, tPaiHang, ttouyin;//´´½¨ÎÆÀí¶ÔÏó
-	Sprite sBackBegin, sBeginButton, sBackPlay, sToziBut, sQizi1, sQizi2, sQizi3, sQizi4, sPaiHang, stouyin;//´´½¨¾«Áé¶ÔÏó
+	bool GameStart, GamePlay, GameEnd;//å¼€å§‹æ¸¸æˆç•Œé¢ï¼Œæ¸¸æˆè¿›è¡Œç•Œé¢,æ¸¸æˆç»“æŸç•Œé¢
+	bool gameQuit, gameOver;  //æ¸¸æˆæ˜¯å¦ç»“æŸ
+	int Window_Width, Window_Height; //çª—å£å¤§å°
+	Texture tBackBegin, tBeginButton1, tBeginButton2, tBackPlay, tToziBut, tQizi1, tQizi2, tQizi3, tQizi4, tPaiHang, ttouyin;//åˆ›å»ºçº¹ç†å¯¹è±¡
+	Sprite sBackBegin, sBeginButton, sBackPlay, sToziBut, sQizi1, sQizi2, sQizi3, sQizi4, sPaiHang, stouyin;//åˆ›å»ºç²¾çµå¯¹è±¡
+	Texture tEventShan, tEventWuZhong, tEventLeBu, tEventBingLiang, tEventShanDian, tEventChiTu;
+	Sprite sEventShan, sEventWuZhong, sEventLeBu, sEventBingLiang, sEventShanDian, sEventChiTu;
+
 	sf::IntRect BeginButton;
 	Sprite sQizi[4] = { sQizi1,sQizi2,sQizi3,sQizi4 };
 	Text text;
 	Font font;
-	SoundBuffer sbfly, sbjump, sbzhuang, sbyeah, sbtouzi;//·ÉÆåÌøÆåÒôĞ§
+	SoundBuffer sbfly, sbjump, sbzhuang, sbyeah, sbtouzi;//é£æ£‹è·³æ£‹éŸ³æ•ˆ
 	Sound soundfly, soundjump, soundzhuang, soundyeah, soundtouzi;
-	Music bkMusic;// ±³¾°ÒôÀÖ
-	int SoundVolume;//ÉèÖÃÒôÁ¿´óĞ¡
-	bool MusicOn;//ÉèÖÃÒôÀÖÔİÍ£Óë·ñ£¨ÔİÎ´Ê¹ÓÃ£©
+	Music bkMusic;// èƒŒæ™¯éŸ³ä¹
+	int SoundVolume;//è®¾ç½®éŸ³é‡å¤§å°
+	bool MusicOn;//è®¾ç½®éŸ³ä¹æš‚åœä¸å¦ï¼ˆæš‚æœªä½¿ç”¨ï¼‰
 	bool isChange;
 
-	//ÂÖ»Ø¼°Ê¤Àû¶¨Òå
+	//è½®å›åŠèƒœåˆ©å®šä¹‰
 	int PlayerNum, endNum, WinPai[4];
 	bool PlayerWin[4];
 
-	//Æå×Ó²¿·Ö¶¨Òå
+	//æ£‹å­éƒ¨åˆ†å®šä¹‰
 	int qizibuxingCount, diezi, qiziDianji;
 	bool QiziDianjiLock, qiziBuxingTime;
 
 
-	//÷»×Ó²¿·Ö¶¨Òå
+	//éª°å­éƒ¨åˆ†å®šä¹‰
 	int touziNuml, touziNum, touziHomeNum, touzinumPrex;
 	bool touziTime, touziInitial;
 	Texture t_touzi, t_touzi2;
@@ -63,7 +66,7 @@ public:
 	int ButtonWidth = 62;
 	int ButtonHeight = 62;
 
-	//µØÍ¼µÄ¸ñ×ÓÑÕÉ«
+	//åœ°å›¾çš„æ ¼å­é¢œè‰²
 	int DColor[DITUSIZE + 28] =
 	{
 							  7,0,1,2,3,0,8,2,3,0,1,2,3,9,
@@ -74,29 +77,29 @@ public:
 							  8,8,8,8,8,8,8,8,8,8,8,8,8,8
 	};
 
-	//µØÍ¼¸ñ×ÓµÄx,y×ø±ê
+	//åœ°å›¾æ ¼å­çš„x,yåæ ‡
 	int DPosition[DITUSIZE + 29][2] =
 	{
-		/*ÂÌ1ÂÌ2*/{440,200},{440,160},{440,120},{440,80},{480,80},{520,80},{560,80},{600,80},
-		/*ÂÌ3ÂÌ4*/{640,80},{680,80},{680,120},{680,160},{680,200},{680,240},{720,240},{760,240},{800,240},
-		/*ÂÌ5ÂÌ6*/{840,240},{840,280},{840,320},{840,360},{840,400},{840,440},{840,480},{800,480},
-		/*ÂÌ7ÂÌ8*/{760,480},{720,480},{680,480},{680,520},{680,560},{680,600},{680,640},{640,640},{600,640},
-		/*ÂÌ9ÂÌ10*/ {560,640},{520,640},{480,640},{440,640},{440,600},{440,560},{440,520},{440,480},{400,480},
-		/*ÂÌ11ÂÌ12*/{360,480},{320,480},{280,480},{280,440},{280,400},{280,360},{280,320},{280,280},
-		/*ÂÌ13*/{280,240},{320,240},{360,240},{400,240},{440,240},
+		/*ç»¿1ç»¿2*/{440,200},{440,160},{440,120},{440,80},{480,80},{520,80},{560,80},{600,80},
+		/*ç»¿3ç»¿4*/{640,80},{680,80},{680,120},{680,160},{680,200},{680,240},{720,240},{760,240},{800,240},
+		/*ç»¿5ç»¿6*/{840,240},{840,280},{840,320},{840,360},{840,400},{840,440},{840,480},{800,480},
+		/*ç»¿7ç»¿8*/{760,480},{720,480},{680,480},{680,520},{680,560},{680,600},{680,640},{640,640},{600,640},
+		/*ç»¿9ç»¿10*/ {560,640},{520,640},{480,640},{440,640},{440,600},{440,560},{440,520},{440,480},{400,480},
+		/*ç»¿11ç»¿12*/{360,480},{320,480},{280,480},{280,440},{280,400},{280,360},{280,320},{280,280},
+		/*ç»¿13*/{280,240},{320,240},{360,240},{400,240},{440,240},
 		{280,360},{320,360},{360,360},{400,360},{440,360},{480,360},{520,360},
 		{560,80},{560,120},{560,160},{560,200},{560,240},{560,280},{560,320},
 		{840,360},{800,360},{760,360},{720,360},{680,360},{640,360},{600,360},
 		{560,640},{560,600},{560,560},{560,520},{560,480},{560,440},{560,400},{580,360}
 	};
 
-	//Æå×Ó¶¨Òå
+	//æ£‹å­å®šä¹‰
 	Qizi QiziA[4][4] = { {{84,true,false,51,{0, -50 },0,false},{84,true,false,51,{0,-50},0 ,false}, {84,true,false,51,{0,-50},0,false },{84,true,false,51,{0,-50},0 ,false}, },
 						 {{84,true,false,9,{50,0} ,0,false},{84,true,false,9,{50,0},0,false }, {84,true,false,9,{50,0},0 ,false},{84,true,false,9,{50,0},0 ,false}},
 						 {{84,true,false,23,{0,50} ,0,false},{84,true,false,23,{0,50},0 ,false}, {84,true ,false,23,{0,50},0,false},{84,true,false,23 ,{0,50},0,false}},
-						 { {84, true,false,37,{-50,0},0 ,false}, { 84,true,false,37,{-50,0},0 ,false}, { 84,true,false,37,{-50,0} ,0,false}, { 84,true,false,37,{-50,0},0,false }, } };//Æå×Ó
+						 { {84, true,false,37,{-50,0},0 ,false}, { 84,true,false,37,{-50,0},0 ,false}, { 84,true,false,37,{-50,0} ,0,false}, { 84,true,false,37,{-50,0},0,false }, } };//æ£‹å­
 
-	//Æå×Ó¼ÒÎ»ÖÃ
+	//æ£‹å­å®¶ä½ç½®
 	double QiziHomePos1[4][4][2] = { {{290,90},{335,90},{290,135},{335,135}},
 	 { {750,90},{795,90},{750,135},{795,135} } ,
 	 { {750,550},{795,550},{750,595},{795,595} } ,
