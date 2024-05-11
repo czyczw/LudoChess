@@ -114,7 +114,8 @@ void Game::QiziBuxing()
 	{
 
 		//当棋子前进结束
-		if (qizibuxingCount >= touziNum + touzinumPrex + 1)//棋子前进步数等于骰子数与跳棋飞棋数
+		//if (qizibuxingCount >= touziNum + touzinumPrex + 1)//棋子前进步数等于骰子数与跳棋飞棋数
+		if (qizibuxingCount >= touziNum + 1)//棋子前进步数等于骰子数
 		{
 			//如果棋子刚刚好到达终点
 			if (QiziA[PlayerNum][qiziDianji].GePos == DITUSIZE + 7 * (PlayerNum)+6)
@@ -197,6 +198,9 @@ void Game::QiziBuxing()
 					//到棋盘55时则让其回到0；
 					if (QiziA[PlayerNum][qiziDianji].GePos == 55)
 						QiziA[PlayerNum][qiziDianji].GePos = 0;
+					else if (QiziA[PlayerNum][qiziDianji].GePos == 2)
+						//QiziA[PlayerNum][qiziDianji].AdvanceEvent(10);
+						QiziA[PlayerNum][qiziDianji].GePos = 55;
 					else
 						QiziA[PlayerNum][qiziDianji].GePos += 1;
 					qizibuxingCount++;
@@ -213,7 +217,7 @@ void Game::QiziBuxing()
 						}
 				}
 				//棋子跳棋或飞棋直接前进剩下步数
-				else
+				/*else
 				{
 					for (qizibuxingCount = touziNum + 1; qizibuxingCount < touziNum + 1 + touzinumPrex; qizibuxingCount++)
 					{
@@ -226,7 +230,7 @@ void Game::QiziBuxing()
 						else
 							QiziA[PlayerNum][qiziDianji].GePos += 1;
 					}
-				}
+				}*/
 			}
 		}
 	}
@@ -396,12 +400,12 @@ void Game::Input()
 									if (QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 > 55  //如果加上骰子数后在55之后，则需要减去56才是正常棋子跳棋判断，否则会用终点路线的棋子颜色数值判断
 										&& QiziA[PlayerNum][qiziDianji].GePos < 56)//忘了为什么要这么设置了
 									{
-										if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 - 56] == PlayerNum)//判断是否跳棋
-										{
-											touzinumPrex += 4;
-											soundjump.setVolume(40);
-											soundjump.play();
-										}
+										//if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 - 56] == PlayerNum)//判断是否跳棋
+										//{
+										//	touzinumPrex += 4;
+										//	soundjump.setVolume(40);
+										//	soundjump.play();
+										//}
 									}
 									else//不跨越55格的跳棋
 									{
@@ -520,7 +524,6 @@ void Game::Input()
 									qiziBuxingTime = true;
 									//cout << "chh" << n << endl;
 								}
-
 							}
 						}
 					}
@@ -604,6 +607,39 @@ void Game::touzi()//初始化骰子数
 	srand(time(NULL));
 	touziNuml = touziNum;
 	touziNum = rand() % 6;
+	while (IsPlayerTurn())
+	{
+		if (Keyboard::isKeyPressed(Keyboard::Num1))
+		{
+			touziNum = 0;
+			break;
+		}
+		else if (Keyboard::isKeyPressed(Keyboard::Num2))
+		{
+			touziNum = 1;
+			break;
+		}
+		else if (Keyboard::isKeyPressed(Keyboard::Num3))
+		{
+			touziNum = 2;
+			break;
+		}
+		else if (Keyboard::isKeyPressed(Keyboard::Num4))
+		{
+			touziNum = 3;
+			break;
+		}
+		else if (Keyboard::isKeyPressed(Keyboard::Num5))
+		{
+			touziNum = 4;
+			break;
+		}
+		else if (Keyboard::isKeyPressed(Keyboard::Num6))
+		{
+			touziNum = 5;
+			break;
+		}
+	}
 	TouziFlash_n = 0;
 	TouziFlash[0] = touziNuml;
 	TouziFlash[19] = touziNum;
