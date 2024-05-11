@@ -304,7 +304,8 @@ void Game::Input()
 
 		if (GamePlay == true)//游戏界面输入模块
 		{
-			if (touziTime == true && touziInitial == false)//骰子时间
+			//骰子时间
+			if (touziTime == true && touziInitial == false)
 			{
 				if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left && TouziPosClicked() || !IsPlayerTurn())//左键单击骰子位置 
 				{
@@ -314,7 +315,8 @@ void Game::Input()
 					//cout << "chg" << endl;
 				}
 			}
-			if (touziTime == false)//不为骰子时间，可选择棋子进行步行
+
+			if (touziTime == false && qiziBuxingTime == false)//不为骰子时间，可选择棋子进行步行
 			{
 				int AiChoice;
 				if (!IsPlayerTurn()) {
@@ -592,7 +594,7 @@ void Game::Draw()
 
 void Game::touzi()//初始化骰子数
 {
-	srand(time(NULL));
+	
 	touziNuml = touziNum;
 	touziNum = rand() % 6;
 	TouziFlash_n = 0;
