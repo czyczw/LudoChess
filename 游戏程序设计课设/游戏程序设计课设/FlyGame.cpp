@@ -45,7 +45,6 @@ void Game::Initial()
 		PlayerWin[i] = false;
 		WinPai[i] = -1;
 	}
-
 	///开始界面
 	if (!tBackBegin.loadFromFile("data/images/bg3.jpg")) { cout << "初始背景素材没有找到" << endl; }
 	if (!tBeginButton1.loadFromFile("data/images/Begin1.png")) { cout << "开始按钮1没有找到" << endl; }
@@ -65,6 +64,12 @@ void Game::Initial()
 	if (!sbyeah.loadFromFile("data/Audios/yeah.wav")) { cout << "棋子结束回家音乐声没有找到" << endl; }
 	if (!bkMusic.openFromFile("data/Audios/ly68.wav")) { cout << "背景音乐声没有找到" << endl; }
 	if (!font.loadFromFile("data/Fonts/simsun.ttc")) cout << "字体没有找到" << endl;
+	if (!tEventBingLiang.loadFromFile("data/images/Map/bingliang.png")) cout << "兵粮素材没有找到" << endl;
+	if (!tEventShan.loadFromFile("data/images/Map/shan.png")) cout << "闪素材没有找到" << endl;
+	if (!tEventShanDian.loadFromFile("data/images/Map/shandian.png")) cout << "闪电素材没有找到" << endl;
+	if (!tEventLeBu.loadFromFile("data/images/Map/lebu.png")) cout << "乐不思蜀素材没有找到" << endl;
+	if (!tEventChiTu.loadFromFile("data/images/Map/chitu.png")) cout << "赤兔素材没有找到" << endl;
+	if (!tEventWuZhong.loadFromFile("data/images/Map/wuzhong.png")) cout << "无中生有素材没有找到" << endl;
 	text.setFont(font);
 
 	//结束场景
@@ -77,6 +82,14 @@ void Game::Initial()
 	stouyin.setTexture(ttouyin);
 	s_touzi.setTexture(t_touzi);   s_touzi2.setTexture(t_touzi2);
 	sPaiHang.setTexture(tPaiHang);
+
+	sEventBingLiang.setTexture(tEventBingLiang);
+	sEventShan.setTexture(tEventShan);
+	sEventShanDian.setTexture(tEventShanDian);
+	sEventLeBu.setTexture(tEventLeBu);
+	sEventChiTu.setTexture(tEventChiTu);
+	sEventWuZhong.setTexture(tEventWuZhong);
+
 	sQizi[0] = sQizi1;	sQizi[1] = sQizi2;	sQizi[2] = sQizi3;	sQizi[3] = sQizi4;//方便
 
 	stouyin.setOrigin(10, 10);//设置投影初始位置偏移量
@@ -101,7 +114,8 @@ void Game::QiziBuxing()
 	{
 
 		//当棋子前进结束
-		if (qizibuxingCount >= touziNum + touzinumPrex + 1)//棋子前进步数等于骰子数与跳棋飞棋数
+		//if (qizibuxingCount >= touziNum + touzinumPrex + 1)//棋子前进步数等于骰子数与跳棋飞棋数
+		if (qizibuxingCount >= touziNum + 1)//棋子前进步数等于骰子数
 		{
 			//如果棋子刚刚好到达终点
 			if (QiziA[PlayerNum][qiziDianji].GePos == DITUSIZE + 7 * (PlayerNum)+6)
@@ -184,6 +198,9 @@ void Game::QiziBuxing()
 					//到棋盘55时则让其回到0；
 					if (QiziA[PlayerNum][qiziDianji].GePos == 55)
 						QiziA[PlayerNum][qiziDianji].GePos = 0;
+					else if (QiziA[PlayerNum][qiziDianji].GePos == 2)
+						//QiziA[PlayerNum][qiziDianji].AdvanceEvent(10);
+						QiziA[PlayerNum][qiziDianji].GePos = 55;
 					else
 						QiziA[PlayerNum][qiziDianji].GePos += 1;
 					qizibuxingCount++;
@@ -200,7 +217,7 @@ void Game::QiziBuxing()
 						}
 				}
 				//棋子跳棋或飞棋直接前进剩下步数
-				else
+				/*else
 				{
 					for (qizibuxingCount = touziNum + 1; qizibuxingCount < touziNum + 1 + touzinumPrex; qizibuxingCount++)
 					{
@@ -213,7 +230,7 @@ void Game::QiziBuxing()
 						else
 							QiziA[PlayerNum][qiziDianji].GePos += 1;
 					}
-				}
+				}*/
 			}
 		}
 	}
@@ -385,12 +402,12 @@ void Game::Input()
 									if (QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 > 55  //如果加上骰子数后在55之后，则需要减去56才是正常棋子跳棋判断，否则会用终点路线的棋子颜色数值判断
 										&& QiziA[PlayerNum][qiziDianji].GePos < 56)//忘了为什么要这么设置了
 									{
-										if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 - 56] == PlayerNum)//判断是否跳棋
-										{
-											touzinumPrex += 4;
-											soundjump.setVolume(40);
-											soundjump.play();
-										}
+										//if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 - 56] == PlayerNum)//判断是否跳棋
+										//{
+										//	touzinumPrex += 4;
+										//	soundjump.setVolume(40);
+										//	soundjump.play();
+										//}
 									}
 									else//不跨越55格的跳棋
 									{
@@ -506,11 +523,9 @@ void Game::Input()
 											soundjump.play();
 										}
 									}
-
 									qiziBuxingTime = true;
 									//cout << "chh" << n << endl;
 								}
-
 							}
 						}
 					}
@@ -539,8 +554,6 @@ void Game::Draw()
 		sBackBegin.setPosition(0, 0);
 		window.draw(sBackBegin);//绘制背景
 
-
-
 		if (isChange == false) {
 			sBeginButton.setTexture(tBeginButton1);//绘制开始按钮
 		}
@@ -561,7 +574,6 @@ void Game::Draw()
 	///游戏进行界面
 	if (GamePlay == true)
 	{
-
 		DrawPlay();
 		if (touziTime == true && touziInitial == true)//骰子时间并且骰子已初始化
 		{
@@ -597,6 +609,39 @@ void Game::touzi()//初始化骰子数
 	
 	touziNuml = touziNum;
 	touziNum = rand() % 6;
+	while (IsPlayerTurn())
+	{
+		if (Keyboard::isKeyPressed(Keyboard::Num1))
+		{
+			touziNum = 0;
+			break;
+		}
+		else if (Keyboard::isKeyPressed(Keyboard::Num2))
+		{
+			touziNum = 1;
+			break;
+		}
+		else if (Keyboard::isKeyPressed(Keyboard::Num3))
+		{
+			touziNum = 2;
+			break;
+		}
+		else if (Keyboard::isKeyPressed(Keyboard::Num4))
+		{
+			touziNum = 3;
+			break;
+		}
+		else if (Keyboard::isKeyPressed(Keyboard::Num5))
+		{
+			touziNum = 4;
+			break;
+		}
+		else if (Keyboard::isKeyPressed(Keyboard::Num6))
+		{
+			touziNum = 5;
+			break;
+		}
+	}
 	TouziFlash_n = 0;
 	TouziFlash[0] = touziNuml;
 	TouziFlash[19] = touziNum;
@@ -622,7 +667,6 @@ void Game::touziDraw()//绘制骰子
 			touziTime = false;
 			if (touziTime == false && touziNum != 5 && QiziA[PlayerNum][0].isHome == true && QiziA[PlayerNum][1].isHome == true && QiziA[PlayerNum][2].isHome == true && QiziA[PlayerNum][3].isHome == true)
 			{
-
 				touziTime = true;
 				do
 				{
@@ -644,7 +688,6 @@ void Game::touziDraw()//绘制骰子
 		window.draw(s_touzi2);
 		TouziFlash_n++;
 	}
-
 }
 void Game::DrawPlay()
 {
@@ -652,6 +695,19 @@ void Game::DrawPlay()
 	sBackPlay.setTexture(tBackPlay);
 	sBackPlay.setPosition(0, 0);
 	window.draw(sBackPlay);//绘制游戏场景
+
+	//sEventBingLiang.setTexture(tEventBingLiang);
+	//sEventBingLiang.setScale(0.5, 0.5);
+	////sEventBingLiang.setOrigin(sEventBingLiang.getTextureRect().width / 2, sEventBingLiang.getTextureRect().height / 2);
+	//sEventBingLiang.setOrigin(sEventBingLiang.getTextureRect().width/2 , sEventBingLiang.getTextureRect().height/2);
+	//sEventBingLiang.setPosition(440, 220);
+	//window.draw(sEventBingLiang);
+
+	//sEventChiTu.setTexture(tEventChiTu);
+	//sEventChiTu.setScale(0.5, 0.5);
+	////sEventChiTu.setOrigin(sEventChiTu.getTextureRect().width, sEventChiTu.getTextureRect().height/2);
+	//sEventChiTu.setPosition(290, 20);
+	//window.draw(sEventChiTu);
 
 	//画棋子
 	for (int i = 0; i < 4; i++)
@@ -679,7 +735,6 @@ void Game::DrawPlay()
 					}
 					sQizi[i].setPosition(QiziHomePos1[i][j][0], QiziHomePos1[i][j][1]);
 					window.draw(sQizi[i]);
-
 				}
 				else//在门口
 				{
@@ -711,7 +766,6 @@ void Game::DrawPlay()
 					}
 					else
 					{
-
 						sQizi[i].setPosition(QiziHomePos1[i][j][0], QiziHomePos1[i][j][1]);
 						window.draw(sQizi[i]);//玩家只有结束后棋子不给予投影，表示棋子任务已结束且不可点击操作
 					}
@@ -755,7 +809,5 @@ int Game::AiDoChoice() {
 		if (!QiziA[PlayerNum][i].isend && !QiziA[PlayerNum][i].isHome)
 			return i;
 	}
-
 	return -1;
-
 }

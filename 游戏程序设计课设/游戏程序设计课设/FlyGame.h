@@ -5,6 +5,8 @@
 #include<SFML/Audio.hpp>
 #include<sstream>
 #include <time.h>
+#include <Windows.h>
+#include <conio.h>
 using namespace sf;
 using namespace std;
 #define  DITUSIZE 56  //地图一圈的格子数
@@ -20,6 +22,14 @@ public:
 	int prex2[2];//家门偏移
 	int diezishu;//迭子数
 	bool isend;//是否结束
+	void AdvanceEvent(int n)//前进事件
+	{
+		GePos += n;
+	}
+	void BackEvent(int n)//后退事件
+	{
+		GePos -= n;
+	}
 };
 
 class Game
@@ -118,7 +128,4 @@ public:
 	bool TouziPosClicked();
 	int AiDoChoice();
 	bool IsPlayerTurn();
-
 };
-
-
