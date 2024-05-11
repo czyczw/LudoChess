@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="DebugDraw.h" />
     <ClInclude Include="FlyGame.h" />
+    <ClInclude Include="Qizi.h" />
     <ClInclude Include="RenderGL3.h" />
     <ClInclude Include="stb_truetype.h" />
   </ItemGroup>

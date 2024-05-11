@@ -41,6 +41,9 @@
     <ClInclude Include="FlyGame.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Qizi.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Red Ball.rc">

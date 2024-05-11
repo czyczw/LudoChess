@@ -5,15 +5,21 @@
 #include<SFML/Audio.hpp>
 #include<sstream>
 #include <time.h>
-#include <Windows.h>
-#include <conio.h>
 using namespace sf;
 using namespace std;
 #define  DITUSIZE 56  //地图一圈的格子数
 #define  GZSIZE 40  //棋子大小
 
+class BaseClass
+{
+public:
+	int touziNum;
+	int touziReduce=0;
+	virtual void touzi() = 0;
+};
 //棋子类定义
-class Qizi {
+class Qizi
+{
 public:
 	int GePos;//处在的格子，
 	bool isHome; //是否在家
@@ -22,6 +28,9 @@ public:
 	int prex2[2];//家门偏移
 	int diezishu;//迭子数
 	bool isend;//是否结束
+	bool isStop;//是否停止
+
+	BaseClass* game;
 	void AdvanceEvent(int n)//前进事件
 	{
 		GePos += n;
@@ -30,14 +39,39 @@ public:
 	{
 		GePos -= n;
 	}
+	//骰一次骰子，如果为偶数则回家
+	void DisasterEvent()
+	{
+		game->touzi();
+		if (game->touziNum%2==1)
+		{
+			GePos = 0;
+			isHome = true;
+			isDoor = false;
+		}
+	}
+	//骰一次骰子，如果小于5，下回合不动
+	void StopEvent()
+	{
+		game->touzi();
+		if (game->touziNum < 5)
+		{
+			isStop = true;
+		}
+	}
+	//下次骰子数-2
+	void ReduceNextPointEvent()
+	{
+		game->touziReduce = 2;
+	}
 };
 
-class Game
+
+class Game :public BaseClass
 {
 public:
 	sf::RenderWindow window;
 	Game();
-	~Game();
 	bool GameStart, GamePlay, GameEnd;//开始游戏界面，游戏进行界面,游戏结束界面
 	bool gameQuit, gameOver;  //游戏是否结束
 	int Window_Width, Window_Height; //窗口大小
@@ -67,7 +101,7 @@ public:
 
 
 	//骰子部分定义
-	int touziNuml, touziNum, touziHomeNum, touzinumPrex;
+	int touziNuml, touziHomeNum, touzinumPrex;
 	bool touziTime, touziInitial;
 	Texture t_touzi, t_touzi2;
 	Sprite s_touzi, s_touzi2;

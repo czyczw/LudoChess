@@ -6,13 +6,14 @@ Game::Game()
 	Window_Width = 1080;
 	Window_Height = 720;
 	window.create(sf::VideoMode(Window_Width, Window_Height), L"恋与飞行棋");
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			QiziA[i][j].game = this;
+		}
+	}
 }
-
-Game::~Game()
-{
-
-}
-
 
 void Game::Initial()
 {
@@ -198,9 +199,37 @@ void Game::QiziBuxing()
 					//到棋盘55时则让其回到0；
 					if (QiziA[PlayerNum][qiziDianji].GePos == 55)
 						QiziA[PlayerNum][qiziDianji].GePos = 0;
-					else if (QiziA[PlayerNum][qiziDianji].GePos == 2)
+					//2号格闪电事件
+					else if (QiziA[PlayerNum][qiziDianji].GePos == 2 && qizibuxingCount==touziNum)
 						//QiziA[PlayerNum][qiziDianji].AdvanceEvent(10);
-						QiziA[PlayerNum][qiziDianji].GePos = 55;
+						//QiziA[PlayerNum][qiziDianji].GePos = 55;
+					{
+						QiziA[PlayerNum][qiziDianji].GePos += 1;
+						this->touziTime = true;
+						QiziA[PlayerNum][qiziDianji].DisasterEvent();
+						PlayerNum++;
+						qiziBuxingTime = false;
+						break;
+					}
+					//3号格乐不思蜀事件
+					else if (QiziA[PlayerNum][qiziDianji].GePos == 3 && qizibuxingCount == touziNum)
+					{
+						QiziA[PlayerNum][qiziDianji].GePos += 1;
+						this->touziTime = true;
+						QiziA[PlayerNum][qiziDianji].StopEvent();
+						PlayerNum++;
+						qiziBuxingTime = false;
+						break;
+					}
+					//4号格兵粮寸断事件
+					else if (QiziA[PlayerNum][qiziDianji].GePos == 4 && qizibuxingCount == touziNum)
+					{
+						QiziA[PlayerNum][qiziDianji].GePos += 1;
+						QiziA[PlayerNum][qiziDianji].ReduceNextPointEvent();
+						PlayerNum++;
+						qiziBuxingTime = false;
+						break;
+					}
 					else
 						QiziA[PlayerNum][qiziDianji].GePos += 1;
 					qizibuxingCount++;
@@ -606,7 +635,17 @@ void Game::Draw()
 
 void Game::touzi()//初始化骰子数
 {
-	
+	//遍历玩家的四个棋子,检测isStop
+	/*for (int i = 0; i < 4; i++)
+	{
+		if (QiziA[PlayerNum][i].isStop == true)
+		{
+			QiziA[PlayerNum][i].isStop = false;
+			PlayerNum++;
+			qiziBuxingTime = false;
+			return;
+		}
+	}*/
 	touziNuml = touziNum;
 	touziNum = rand() % 6;
 	while (IsPlayerTurn())
@@ -642,6 +681,15 @@ void Game::touzi()//初始化骰子数
 			break;
 		}
 	}
+	//if (touziReduce != 0)
+	//{
+	//	touziNum -= touziReduce;
+	//	if (touziNum<1)
+	//	{
+	//		touziNum = 0;
+	//	}
+	//	touziReduce = 0;
+	//}
 	TouziFlash_n = 0;
 	TouziFlash[0] = touziNuml;
 	TouziFlash[19] = touziNum;
@@ -679,7 +727,13 @@ void Game::touziDraw()//绘制骰子
 			touziInitial = false;
 		}
 		s_touzi.setPosition(530, 330);
-		window.draw(s_touzi);
+		if (TouziFlash_n == 20)
+		{
+			window.draw(s_touzi);
+			window.display();
+			Sleep(500);
+		}
+
 	}
 	else//过程旋转效果过渡帧
 	{
@@ -781,7 +835,6 @@ void Game::Run()
 		Initial();
 		while (window.isOpen() && gameOver == false) {
 			Input();
-
 			Draw();
 		}
 	} while (!gameQuit);
