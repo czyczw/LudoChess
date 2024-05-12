@@ -14,7 +14,6 @@ class BaseClass
 {
 public:
 	int touziNum;
-	int touziReduce=0;
 	virtual void touzi() = 0;
 };
 //棋子类定义
@@ -29,6 +28,8 @@ public:
 	int diezishu;//迭子数
 	bool isend;//是否结束
 	bool isStop;//是否停止
+	bool isBingLiangCunDuan=false;//是否兵粮寸断
+	int BingLiangCunDuanCount;//兵粮寸断数值
 
 	BaseClass* game;
 	void AdvanceEvent(int n)//前进事件
@@ -62,7 +63,8 @@ public:
 	//下次骰子数-2
 	void ReduceNextPointEvent()
 	{
-		game->touziReduce = 2;
+		isBingLiangCunDuan = true;
+		BingLiangCunDuanCount = 2;
 	}
 };
 

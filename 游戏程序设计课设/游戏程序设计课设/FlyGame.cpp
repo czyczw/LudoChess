@@ -111,6 +111,16 @@ void Game::Initial()
 
 void Game::QiziBuxing()
 {
+	//如果当前棋子的isBingLiangCunDuan为true，则骰子数减BingLiangCunDuanCount
+	if (QiziA[PlayerNum][qiziDianji].isBingLiangCunDuan == true)
+	{
+		touziNum -= QiziA[PlayerNum][qiziDianji].BingLiangCunDuanCount;
+		if (touziNum < 0)
+		{
+			touziNum = 0;
+		}
+		QiziA[PlayerNum][qiziDianji].isBingLiangCunDuan = false;
+	}
 	for (int k = 0; k < 80; k++)//数值不固定，只是让它循环一下，不一定好用，可改
 	{
 
@@ -200,36 +210,42 @@ void Game::QiziBuxing()
 					if (QiziA[PlayerNum][qiziDianji].GePos == 55)
 						QiziA[PlayerNum][qiziDianji].GePos = 0;
 					//2号格闪电事件
-					else if (QiziA[PlayerNum][qiziDianji].GePos == 2 && qizibuxingCount==touziNum)
-						//QiziA[PlayerNum][qiziDianji].AdvanceEvent(10);
-						//QiziA[PlayerNum][qiziDianji].GePos = 55;
-					{
-						QiziA[PlayerNum][qiziDianji].GePos += 1;
-						this->touziTime = true;
-						QiziA[PlayerNum][qiziDianji].DisasterEvent();
-						PlayerNum++;
-						qiziBuxingTime = false;
-						break;
-					}
-					//3号格乐不思蜀事件
+					//else if (QiziA[PlayerNum][qiziDianji].GePos == 2 && qizibuxingCount==touziNum)
+					//	//QiziA[PlayerNum][qiziDianji].AdvanceEvent(10);
+					//	//QiziA[PlayerNum][qiziDianji].GePos = 55;
+					//{
+					//	QiziA[PlayerNum][qiziDianji].GePos += 1;
+					//	this->touziTime = true;
+					//	QiziA[PlayerNum][qiziDianji].DisasterEvent();
+					//	PlayerNum++;
+					//	qiziBuxingTime = false;
+					//	break;
+					//}
+					////3号格乐不思蜀事件
 					else if (QiziA[PlayerNum][qiziDianji].GePos == 3 && qizibuxingCount == touziNum)
 					{
 						QiziA[PlayerNum][qiziDianji].GePos += 1;
 						this->touziTime = true;
-						QiziA[PlayerNum][qiziDianji].StopEvent();
+						//QiziA[PlayerNum][qiziDianji].StopEvent();
+						touzi();
+						if (touziNum < 5)
+						{
+							for(int i = 0; i < 4; i++)
+							{
+								QiziA[PlayerNum][i].isStop = true;
+							}
+						}
 						PlayerNum++;
 						qiziBuxingTime = false;
 						break;
 					}
 					//4号格兵粮寸断事件
-					else if (QiziA[PlayerNum][qiziDianji].GePos == 4 && qizibuxingCount == touziNum)
-					{
-						QiziA[PlayerNum][qiziDianji].GePos += 1;
-						QiziA[PlayerNum][qiziDianji].ReduceNextPointEvent();
-						PlayerNum++;
-						qiziBuxingTime = false;
-						break;
-					}
+					//else if (QiziA[PlayerNum][qiziDianji].GePos == 4 && qizibuxingCount == touziNum)
+					//{
+					//	QiziA[PlayerNum][qiziDianji].GePos += 1;
+					//	//将其下回合步数-2
+					//	QiziA[PlayerNum][qiziDianji].ReduceNextPointEvent();
+					//}
 					else
 						QiziA[PlayerNum][qiziDianji].GePos += 1;
 					qizibuxingCount++;
@@ -636,16 +652,19 @@ void Game::Draw()
 void Game::touzi()//初始化骰子数
 {
 	//遍历玩家的四个棋子,检测isStop
-	/*for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		if (QiziA[PlayerNum][i].isStop == true)
 		{
-			QiziA[PlayerNum][i].isStop = false;
+			for (int j = 0; j < 4; j++)
+			{
+				QiziA[PlayerNum][j].isStop = false;
+			}
 			PlayerNum++;
 			qiziBuxingTime = false;
-			return;
+			break;
 		}
-	}*/
+	}
 	touziNuml = touziNum;
 	touziNum = rand() % 6;
 	while (IsPlayerTurn())
@@ -681,15 +700,6 @@ void Game::touzi()//初始化骰子数
 			break;
 		}
 	}
-	//if (touziReduce != 0)
-	//{
-	//	touziNum -= touziReduce;
-	//	if (touziNum<1)
-	//	{
-	//		touziNum = 0;
-	//	}
-	//	touziReduce = 0;
-	//}
 	TouziFlash_n = 0;
 	TouziFlash[0] = touziNuml;
 	TouziFlash[19] = touziNum;
