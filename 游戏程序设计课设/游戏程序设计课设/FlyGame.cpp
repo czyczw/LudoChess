@@ -19,6 +19,7 @@ void Game::Initial()
 {
 	window.setFramerateLimit(60);
 
+	debugMode = false;
 	isChange = false;
 	gameQuit = false;//游戏未退出
 	gameOver = false;//游戏未结束
@@ -288,13 +289,16 @@ void Game::QiziBuxing()
 
 void Game::Input()
 {	
+	
 	if (!IsPlayerTurn())
 	{
 		goto AITURNGOTO;
 	}
 	while (window.pollEvent(event))
 	{
-		AITURNGOTO://AI回合先执行一遍，在处理event事件。
+	AITURNGOTO://AI回合先执行一遍，在处理event事件。
+		if (event.type == sf::Event::EventType::KeyReleased && event.key.code == sf::Keyboard::D)//切换debug模式状态
+			debugMode = !debugMode;
 		if (event.type == Event::Closed) {
 			window.close();
 			gameQuit = true;
@@ -583,13 +587,7 @@ void Game::Input()
 
 void Game::Draw()
 {
-	//想输出现在轮回的文字，未成功（问题）
-	text.setCharacterSize(120);
-	text.setString(L"现在轮回");
-	text.setFillColor(Color(255, 255, 0, 255));
-	text.setOrigin(100, 25);
-	text.setPosition(300, 50);
-	window.draw(text);
+	
 
 	if (GameStart == true)
 	{
@@ -646,6 +644,8 @@ void Game::Draw()
 			window.draw(sQizi[i]);
 		}
 	}
+	DrawDebug();
+	
 	window.display();
 }
 
@@ -667,7 +667,8 @@ void Game::touzi()//初始化骰子数
 	}
 	touziNuml = touziNum;
 	touziNum = rand() % 6;
-	while (IsPlayerTurn())
+	if(debugMode == true)
+	while (IsPlayerTurn())//
 	{
 		if (Keyboard::isKeyPressed(Keyboard::Num1))
 		{
@@ -740,6 +741,7 @@ void Game::touziDraw()//绘制骰子
 		if (TouziFlash_n == 20)
 		{
 			window.draw(s_touzi);
+			DrawDebug();
 			window.display();
 			Sleep(500);
 		}
@@ -855,6 +857,17 @@ bool Game::TouziPosClicked() {
 		&& sf::Mouse::getPosition(window).y >320 && sf::Mouse::getPosition(window).y < 380);
 	
 }
+void Game::DrawDebug() {
+	if (debugMode == true)
+	{
+		text.setCharacterSize(70);
+		text.setString(L"Debug");
+		text.setFillColor(sf::Color::Red);
+		text.setOrigin(100, 25);
+		text.setPosition(300, 50);
+		window.draw(text);
+	}
+}
 bool Game::IsPlayerTurn() {
 	if (PlayerNum == 0)
 		return true;
@@ -864,13 +877,15 @@ bool Game::IsPlayerTurn() {
 int Game::AiDoChoice() {
 	if (touziNum == 5) {
 		for (int i = 0; i < 4; i++) {
-			if (!QiziA[PlayerNum][i].isend)
+			if (!QiziA[PlayerNum][i].isend && QiziA[PlayerNum][i].isHome)
 				return i;
 		}
 	}
+	vector<int> choosableQiziList;
 	for (int i = 0; i < 4; i++) {
 		if (!QiziA[PlayerNum][i].isend && !QiziA[PlayerNum][i].isHome)
-			return i;
+			choosableQiziList.push_back(i);
 	}
-	return -1;
+	int randomChoice = rand() % choosableQiziList.size();
+	return randomChoice;
 }

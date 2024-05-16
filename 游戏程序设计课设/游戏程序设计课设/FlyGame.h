@@ -76,6 +76,7 @@ public:
 	Game();
 	bool GameStart, GamePlay, GameEnd;//开始游戏界面，游戏进行界面,游戏结束界面
 	bool gameQuit, gameOver;  //游戏是否结束
+	bool debugMode;
 	int Window_Width, Window_Height; //窗口大小
 	Texture tBackBegin, tBeginButton1, tBeginButton2, tBackPlay, tToziBut, tQizi1, tQizi2, tQizi3, tQizi4, tPaiHang, ttouyin;//创建纹理对象
 	Sprite sBackBegin, sBeginButton, sBackPlay, sToziBut, sQizi1, sQizi2, sQizi3, sQizi4, sPaiHang, stouyin;//创建精灵对象
@@ -162,6 +163,7 @@ public:
 	void Run();
 
 	bool TouziPosClicked();
+	void DrawDebug();
 	int AiDoChoice();
 	bool IsPlayerTurn();
 };
