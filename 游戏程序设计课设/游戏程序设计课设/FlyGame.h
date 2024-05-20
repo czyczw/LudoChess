@@ -75,6 +75,7 @@ public:
 	sf::RenderWindow window;
 	Game();
 	bool GameStart, GamePlay, GameEnd;//开始游戏界面，游戏进行界面,游戏结束界面
+	bool Gamepick; //选人
 	bool gameQuit, gameOver;  //游戏是否结束
 	bool debugMode;
 	int Window_Width, Window_Height; //窗口大小
@@ -82,6 +83,8 @@ public:
 	Sprite sBackBegin, sBeginButton, sBackPlay, sToziBut, sQizi1, sQizi2, sQizi3, sQizi4, sPaiHang, stouyin;//创建精灵对象
 	Texture tEventShan, tEventWuZhong, tEventLeBu, tEventBingLiang, tEventShanDian, tEventChiTu;
 	Sprite sEventShan, sEventWuZhong, sEventLeBu, sEventBingLiang, sEventShanDian, sEventChiTu;
+	Texture tPickBackground,tyuanshao,tcaopi,tluanji,tfangzhu;
+	Sprite sPickBackground,syuanshao,scaopi,sluanji,sfangzhu;
 
 	sf::IntRect BeginButton;
 	Sprite sQizi[4] = { sQizi1,sQizi2,sQizi3,sQizi4 };
