@@ -30,6 +30,8 @@ public:
 	bool isStop;//是否停止
 	bool isBingLiangCunDuan=false;//是否兵粮寸断
 	int BingLiangCunDuanCount;//兵粮寸断数值
+	int type;
+	int jumptime;
 
 	BaseClass* game;
 	void AdvanceEvent(int n)//前进事件
@@ -83,8 +85,8 @@ public:
 	Sprite sBackBegin, sBeginButton, sBackPlay, sToziBut, sQizi1, sQizi2, sQizi3, sQizi4, sPaiHang, stouyin;//创建精灵对象
 	Texture tEventShan, tEventWuZhong, tEventLeBu, tEventBingLiang, tEventShanDian, tEventChiTu;
 	Sprite sEventShan, sEventWuZhong, sEventLeBu, sEventBingLiang, sEventShanDian, sEventChiTu;
-	Texture tPickBackground,tyuanshao,tcaopi,tluanji,tfangzhu;
-	Sprite sPickBackground,syuanshao,scaopi,sluanji,sfangzhu;
+	Texture tPickBackground, tyuanshao, tcaopi, tluanji, tfangzhu, tjumpB;
+	Sprite sPickBackground, syuanshao, scaopi, sluanji, sfangzhu, sjumpB;
 
 	sf::IntRect BeginButton;
 	Sprite sQizi[4] = { sQizi1,sQizi2,sQizi3,sQizi4 };
@@ -104,7 +106,7 @@ public:
 	//棋子部分定义
 	int qizibuxingCount, diezi, qiziDianji;
 	bool QiziDianjiLock, qiziBuxingTime;
-
+	int jump;
 
 	//骰子部分定义
 	int touziNuml, touziHomeNum, touzinumPrex;

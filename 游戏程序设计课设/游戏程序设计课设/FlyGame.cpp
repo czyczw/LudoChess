@@ -18,6 +18,7 @@ Game::Game()
 		for (int j = 0; j < 4; j++)
 		{
 			QiziA[i][j].game = this;
+			QiziA[i][j].type = j + 1;
 		}
 	}
 }
@@ -49,6 +50,7 @@ void Game::Initial()
 	endNum = 0;
 	SoundVolume = 50;
 	QiziDianjiLock = false;
+	jump = 0;
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -86,7 +88,8 @@ void Game::Initial()
 	if (!tluanji.loadFromFile("data/images/luanji.png"))cout << "乱击素材没有找到" << endl;
 	if (!tfangzhu.loadFromFile("data/images/fangzhu.png"))cout << "放逐素材没有找到" << endl;
 	text.setFont(font);
-
+	//跳跃按钮
+	if (!tjumpB.loadFromFile("data/images/jumpB.jpg"))cout << "按钮素材没有找到" << endl;
 	//结束场景
 	if (!tPaiHang.loadFromFile("data/images/PH.png")) { cout << "排行榜素材没有找到" << endl; }
 
@@ -111,6 +114,7 @@ void Game::Initial()
 	sluanji.setTexture(tluanji);
 	sfangzhu.setTexture(tfangzhu);
 	sQizi[0] = sQizi1;	sQizi[1] = sQizi2;	sQizi[2] = sQizi3;	sQizi[3] = sQizi4;//方便
+	sjumpB.setTexture(tjumpB);
 
 	stouyin.setOrigin(10, 10);//设置投影初始位置偏移量
 
@@ -134,6 +138,7 @@ void Game::QiziBuxing()
 	//如果当前棋子的isBingLiangCunDuan为true，则骰子数减BingLiangCunDuanCount
 	if (QiziA[PlayerNum][qiziDianji].isBingLiangCunDuan == true)
 	{
+		//touziNum+=jump;
 		touziNum -= QiziA[PlayerNum][qiziDianji].BingLiangCunDuanCount;
 		if (touziNum < 0)
 		{
@@ -146,7 +151,7 @@ void Game::QiziBuxing()
 
 		//当棋子前进结束
 		//if (qizibuxingCount >= touziNum + touzinumPrex + 1)//棋子前进步数等于骰子数与跳棋飞棋数
-		if (qizibuxingCount >= touziNum + 1)//棋子前进步数等于骰子数
+		if (qizibuxingCount >= touziNum + jump+1)//棋子前进步数等于骰子数
 		{
 			//如果棋子刚刚好到达终点
 			if (QiziA[PlayerNum][qiziDianji].GePos == DITUSIZE + 7 * (PlayerNum)+6)
@@ -214,13 +219,16 @@ void Game::QiziBuxing()
 			//若棋子到达终点骰子数还没走完，则返回剩下的步数
 			if (QiziA[PlayerNum][qiziDianji].GePos == DITUSIZE + 7 * (PlayerNum)+6)
 			{
-				QiziA[PlayerNum][qiziDianji].GePos -= (touziNum + 1 - qizibuxingCount);
-				qizibuxingCount = touziNum + 1;
+				QiziA[PlayerNum][qiziDianji].GePos -= (touziNum + 1 + jump - qizibuxingCount);
+				if (QiziA[PlayerNum][qiziDianji].GePos < (DITUSIZE + 7 * (PlayerNum)))
+					QiziA[PlayerNum][qiziDianji].GePos = (DITUSIZE + 7 * (PlayerNum)+(DITUSIZE + 7 * (PlayerNum)-QiziA[PlayerNum][qiziDianji].GePos));
+				jump = 0;
+				qizibuxingCount = touziNum + 1 + jump;
 			}
 			else
 			{
 				//棋子在骰子数中前进单个单个前进
-				if (qizibuxingCount < touziNum + 1)
+				if (qizibuxingCount < touziNum + jump + 1)
 				{
 					//进入终点路线
 					if (QiziA[PlayerNum][qiziDianji].GePos == QiziA[PlayerNum][qiziDianji].prex - 3)
@@ -230,6 +238,8 @@ void Game::QiziBuxing()
 					//到棋盘55时则让其回到0；
 					if (QiziA[PlayerNum][qiziDianji].GePos == 55)
 						QiziA[PlayerNum][qiziDianji].GePos = 0;
+
+					//将经过的棋子打回(跳棋飞棋不打回)（在测试的时候可以注释，容易拖慢测试速度）
 					//2号格闪电事件
 					//else if (QiziA[PlayerNum][qiziDianji].GePos == 2 && qizibuxingCount==touziNum)
 					//	//QiziA[PlayerNum][qiziDianji].AdvanceEvent(10);
@@ -270,17 +280,84 @@ void Game::QiziBuxing()
 					else
 						QiziA[PlayerNum][qiziDianji].GePos += 1;
 					qizibuxingCount++;
+					if (qizibuxingCount == touziNum + jump + 1)
+						jump = 0;
 					//将经过的棋子打回(跳棋飞棋不打回)（在测试的时候可以注释，容易拖慢测试速度）
 					for (int m = 0; m < 4; m++)
 						for (int n = 0; n < 4; n++)
 						{
 							if (QiziA[m][n].GePos == QiziA[PlayerNum][qiziDianji].GePos && m != PlayerNum && QiziA[m][n].isDoor == false)
 							{
-								QiziA[m][n].isHome = true;
-								soundzhuang.setVolume(60);
-								soundzhuang.play();
+								if ((QiziA[m][n].type == 2 || QiziA[PlayerNum][qiziDianji].type == 2) && QiziA[PlayerNum][qiziDianji].type != 1)
+								{
+									QiziA[m][n].isHome = true;
+									QiziA[PlayerNum][qiziDianji].isHome = true;
+									QiziDianjiLock = false;//可点击下一个
+									touzinumPrex = 0;//跳棋飞棋偏移还原置为0
+									qiziBuxingTime = false;//棋子步行时间结束
+									qizibuxingCount = 0;//棋子前进数还原置为0
+									QiziA[PlayerNum][qiziDianji].GePos = -1;
+									QiziA[m][n].GePos = -1;
+									touziTime = true;//骰子时间
+									if (touziNum != 5)//骰子数不为6则进入下一玩家
+									{
+										do
+										{
+											if (PlayerNum == 3)
+												PlayerNum = 0;
+											else
+												PlayerNum++;
+											skillcanuse(PlayerNum);
+										} while (PlayerWin[PlayerNum] == true);//若有玩家结束则跳过该玩家
+									}
+									soundzhuang.setVolume(60);
+									soundzhuang.play();
+								}
+								else if (QiziA[m][n].type == 2 && QiziA[PlayerNum][qiziDianji].type == 1)
+								{
+									QiziA[m][n].isHome = true;
+									QiziA[m][n].GePos = -1;
+									soundzhuang.setVolume(60);
+									soundzhuang.play();
+								}
+								else
+								{
+									if (QiziA[m][n].type <= QiziA[PlayerNum][qiziDianji].type)
+									{
+										QiziA[m][n].isHome = true;
+										QiziA[m][n].GePos = -1;
+
+									}
+									else
+									{
+										QiziA[PlayerNum][qiziDianji].isHome = true;
+										QiziDianjiLock = false;//可点击下一个
+										touzinumPrex = 0;//跳棋飞棋偏移还原置为0
+										qiziBuxingTime = false;//棋子步行时间结束
+										qizibuxingCount = 0;//棋子前进数还原置为0
+										QiziA[PlayerNum][qiziDianji].GePos = -1;
+
+										touziTime = true;//骰子时间
+										if (touziNum != 5)//骰子数不为6则进入下一玩家
+										{
+											do
+											{
+												if (PlayerNum == 3)
+													PlayerNum = 0;
+												else
+													PlayerNum++;
+												skillcanuse(PlayerNum);
+											} while (PlayerWin[PlayerNum] == true);//若有玩家结束则跳过该玩家
+										}
+										qiziBuxingTime = false;
+										soundzhuang.setVolume(60);
+										soundzhuang.play();
+
+									}
+								}
 							}
 						}
+
 				}
 				//棋子跳棋或飞棋直接前进剩下步数
 				/*else
@@ -413,6 +490,11 @@ void Game::Input()
 		}
 		if (GamePlay == true)//游戏界面输入模块
 		{
+			sf::Vector2f jumpbut, jumpbutscale;
+			sf::Vector2u jumpbutsize;
+			jumpbut = sjumpB.getPosition();
+			jumpbutscale = sjumpB.getScale();
+			jumpbutsize = sjumpB.getTexture()->getSize();
 			//骰子时间
 			if (touziTime == true && touziInitial == false)
 			{
@@ -514,6 +596,11 @@ void Game::Input()
 			}
 			if (touziTime == false && qiziBuxingTime == false)//不为骰子时间，可选择棋子进行步行
 			{
+				if (sf::Mouse::getPosition(window).x > jumpbut.x && sf::Mouse::getPosition(window).x<jumpbut.x + jumpbutsize.x * jumpbutscale.x
+					&& sf::Mouse::getPosition(window).y>jumpbut.y && sf::Mouse::getPosition(window).y < jumpbut.y + jumpbutsize.y * jumpbutscale.y && IsPlayerTurn())
+				{
+					jump = 3;
+				}
 				int AiChoice;
 				if (!IsPlayerTurn()) {
 					AiChoice = AiDoChoice();
@@ -574,12 +661,12 @@ void Game::Input()
 										}
 									}
 									qiziDianji = n;//叠棋最上方一个棋子可进入步行状态
-
+									if (qiziDianji != 2)jump = 0;
 									QiziDianjiLock = true;//（不设定的话其他同时在门口的棋子也会出门）
 									QiziA[PlayerNum][qiziDianji].isDoor = false;//门口状态变为出门
 									QiziA[PlayerNum][qiziDianji].GePos = QiziA[PlayerNum][qiziDianji].prex;//将该棋子的格子位置变为门口第一个位置（第二次）
 									//跨越第55格的跳棋
-									if (QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 > 55  //如果加上骰子数后在55之后，则需要减去56才是正常棋子跳棋判断，否则会用终点路线的棋子颜色数值判断
+									if (QiziA[PlayerNum][qiziDianji].GePos + touziNum + jump + 1 > 55  //如果加上骰子数后在55之后，则需要减去56才是正常棋子跳棋判断，否则会用终点路线的棋子颜色数值判断
 										&& QiziA[PlayerNum][qiziDianji].GePos < 56)//忘了为什么要这么设置了
 									{
 										//if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 - 56] == PlayerNum)//判断是否跳棋
@@ -591,7 +678,7 @@ void Game::Input()
 									}
 									else//不跨越55格的跳棋
 									{
-										if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1] == PlayerNum)//判断是否跳棋
+										if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + jump + 1] == PlayerNum)//判断是否跳棋
 										{
 											touzinumPrex += 4;
 											soundjump.setVolume(40);
@@ -625,10 +712,11 @@ void Game::Input()
 										}
 									}
 									qiziDianji = n;
+									if (qiziDianji != 2)jump = 0;
 									//跨越55格的跳棋
-									if (QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 > 55 && QiziA[PlayerNum][qiziDianji].GePos < 56)
+									if (QiziA[PlayerNum][qiziDianji].GePos + touziNum + jump + 1 > 55 && QiziA[PlayerNum][qiziDianji].GePos < 56)
 									{
-										if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 - 56] == PlayerNum)//判断跳棋
+										if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + jump + 1 - 56] == PlayerNum)//判断跳棋
 										{
 											touzinumPrex += 4;
 											soundjump.setVolume(40);
@@ -638,7 +726,7 @@ void Game::Input()
 												if (DColor[QiziA[PlayerNum][qiziDianji].GePos + k] == 9)
 													touzinumPrex++;
 											}
-											if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 + touzinumPrex - 56] == PlayerNum + 4)
+											if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + jump + 1 + touzinumPrex - 56] == PlayerNum + 4)
 											{
 												touzinumPrex += 12;
 												soundfly.setVolume(40);
@@ -648,7 +736,7 @@ void Game::Input()
 									}
 									else//不跨越55格的跳棋
 									{
-										if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1] == PlayerNum &&  //判断跳棋
+										if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + jump + 1] == PlayerNum &&  //判断跳棋
 											(QiziA[PlayerNum][qiziDianji].GePos< QiziA[PlayerNum][qiziDianji].prex - 6 || //这里的判断是为了避免终点入口附近加了touzinum后用终点另一边的颜色数值
 												QiziA[PlayerNum][qiziDianji].GePos > QiziA[PlayerNum][qiziDianji].prex - 2))//因为以棋盘为一圈而不是直接连上终点所以需要这样设置
 										{
@@ -661,9 +749,9 @@ void Game::Input()
 													touzinumPrex++;
 											}
 											//判断飞棋格是否跨越55格
-											if (QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 + touzinumPrex > 55 && QiziA[PlayerNum][qiziDianji].GePos < 56)
+											if (QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 + jump + touzinumPrex > 55 && QiziA[PlayerNum][qiziDianji].GePos < 56)
 											{
-												if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 + touzinumPrex - 56] == PlayerNum + 4)
+												if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + jump + 1 + touzinumPrex - 56] == PlayerNum + 4)
 												{
 													touzinumPrex += 12;
 													soundfly.setVolume(40);
@@ -672,7 +760,7 @@ void Game::Input()
 											}
 											else
 											{
-												if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 + touzinumPrex] == PlayerNum + 4)
+												if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + jump + 1 + touzinumPrex] == PlayerNum + 4)
 												{
 													touzinumPrex += 12;
 													soundfly.setVolume(40);
@@ -682,9 +770,9 @@ void Game::Input()
 										}
 									}
 									//跨越55格的飞棋（因为出门没有飞棋所以出门输出模块没有设置）
-									if (QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 > 55 && QiziA[PlayerNum][qiziDianji].GePos < 56)
+									if (QiziA[PlayerNum][qiziDianji].GePos + touziNum + jump + 1 > 55 && QiziA[PlayerNum][qiziDianji].GePos < 56)
 									{
-										if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1 - 56] == PlayerNum + 4)//判断飞棋
+										if (DColor[QiziA[PlayerNum][qiziDianji].GePos + jump + touziNum + 1 - 56] == PlayerNum + 4)//判断飞棋
 										{
 											touzinumPrex += 17;
 											soundfly.setVolume(40);
@@ -695,7 +783,7 @@ void Game::Input()
 									}
 									else//不跨越55格的飞棋
 									{
-										if (DColor[QiziA[PlayerNum][qiziDianji].GePos + touziNum + 1] == PlayerNum + 4)//判断飞棋
+										if (DColor[QiziA[PlayerNum][qiziDianji].GePos + jump + touziNum + 1] == PlayerNum + 4)//判断飞棋
 										{
 											touzinumPrex += 17;
 											soundfly.play();
@@ -762,6 +850,9 @@ void Game::Draw()
 	if (GamePlay == true)
 	{
 		DrawPlay();
+		window.draw(sjumpB);
+		sjumpB.setPosition(40, 520);
+		sjumpB.setScale(0.6f, 0.5f);
 		if (gamemode == 1)
 		{
 			window.draw(syuanshao);
@@ -1038,17 +1129,20 @@ bool Game::IsPlayerTurn() {
 		return false;
 }
 int Game::AiDoChoice() {
+	vector<int> choosableQiziList;
 	if (touziNum == 5) {
 		for (int i = 0; i < 4; i++) {
 			if (!QiziA[PlayerNum][i].isend && QiziA[PlayerNum][i].isHome)
-				return i;
+				choosableQiziList.push_back(i);
 		}
 	}
-	vector<int> choosableQiziList;
-	for (int i = 0; i < 4; i++) {
-		if (!QiziA[PlayerNum][i].isend && !QiziA[PlayerNum][i].isHome)
-			choosableQiziList.push_back(i);
+	
+	if (choosableQiziList.size() == 0) {
+		for (int i = 0; i < 4; i++) {
+			if (!QiziA[PlayerNum][i].isend && !QiziA[PlayerNum][i].isHome)
+				choosableQiziList.push_back(i);
+		}
 	}
 	int randomChoice = rand() % choosableQiziList.size();
-	return randomChoice;
+	return choosableQiziList[randomChoice];
 }
