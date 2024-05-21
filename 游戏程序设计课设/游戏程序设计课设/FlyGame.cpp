@@ -424,7 +424,6 @@ void Game::Input()
 					//cout << "chg" << endl;
 				}
 			}
-			skillcanuse(PlayerNum);
 			if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
 			{
 				sf::Vector2f skill, skillscale;
@@ -449,13 +448,13 @@ void Game::Input()
 									{
 										if (QiziA[i][j].GePos > 10&& QiziA[i][j].GePos<24)
 										{
-											int gepos = QiziA[i][j].GePos - touziNum;
+											int gepos = QiziA[i][j].GePos - touziNum-1;
 											if (gepos >= 5 &&  gepos <= 10)
 											{
 												QiziA[i][j].isDoor = true;
 											}
 											else
-												QiziA[i][j].GePos -= touziNum;
+												QiziA[i][j].GePos -= (touziNum + 1);
 											if (QiziA[i][j].GePos < 0)
 												QiziA[i][j].GePos += 55;
 										}
@@ -464,13 +463,13 @@ void Game::Input()
 									{
 										if (QiziA[i][j].GePos > 24&&QiziA[i][j].GePos<38)
 										{
-											int gepos = QiziA[i][j].GePos - touziNum;
+											int gepos = QiziA[i][j].GePos - touziNum-1;
 											if (gepos >= 19 && gepos <= 24)
 											{
 												QiziA[i][j].isDoor = true;
 											}
 											else
-												QiziA[i][j].GePos -= touziNum;
+												QiziA[i][j].GePos -= (touziNum + 1);
 											if (QiziA[i][j].GePos < 0)
 												QiziA[i][j].GePos += 55;
 										}
@@ -479,13 +478,13 @@ void Game::Input()
 									{
 										if (QiziA[i][j].GePos > 38 && QiziA[i][j].GePos < 52)
 										{
-											int gepos = QiziA[i][j].GePos - touziNum;
+											int gepos = QiziA[i][j].GePos - touziNum-1;
 											if (gepos >= 33 && gepos <= 38)
 											{
 												QiziA[i][j].isDoor = true;
 											}
 											else
-												QiziA[i][j].GePos -= touziNum;
+												QiziA[i][j].GePos -= (touziNum + 1);
 											if (QiziA[i][j].GePos < 0)
 												QiziA[i][j].GePos += 55;
 										}
@@ -498,7 +497,19 @@ void Game::Input()
 				}
 				if (gamemode == 2)
 				{
+					skill = sfangzhu.getPosition();
+					skillscale = sfangzhu.getScale();
+					skillsize = sfangzhu.getTexture()->getSize();
+					if (sf::Mouse::getPosition(window).x > skill.x && sf::Mouse::getPosition(window).x<skill.x + skillsize.x * skillscale.x
+						&& sf::Mouse::getPosition(window).y>skill.y && sf::Mouse::getPosition(window).y < skill.y + skillsize.y * skillscale.y && IsPlayerTurn() && skilluse == true)
+					{
+						for (int i = 1; i < 4; i++)
+						{
+							sQizi[i].setOrigin(7, 7);//放大会有偏移，设置初始位置偏移修正
+							sQizi[i].setScale(1.3, 1.3);
+						}
 
+					}
 				}
 			}
 			if (touziTime == false && qiziBuxingTime == false)//不为骰子时间，可选择棋子进行步行
@@ -884,6 +895,7 @@ void Game::touziDraw()//绘制骰子
 						PlayerNum = 0;
 					else
 						PlayerNum++;
+					skillcanuse(PlayerNum);
 				} while (PlayerWin[PlayerNum] == true);//若有玩家结束则跳过该玩家
 			}
 			touziInitial = false;
