@@ -1117,17 +1117,20 @@ bool Game::IsPlayerTurn() {
 		return false;
 }
 int Game::AiDoChoice() {
+	vector<int> choosableQiziList;
 	if (touziNum == 5) {
 		for (int i = 0; i < 4; i++) {
 			if (!QiziA[PlayerNum][i].isend && QiziA[PlayerNum][i].isHome)
-				return i;
+				choosableQiziList.push_back(i);
 		}
 	}
-	vector<int> choosableQiziList;
-	for (int i = 0; i < 4; i++) {
-		if (!QiziA[PlayerNum][i].isend && !QiziA[PlayerNum][i].isHome)
-			choosableQiziList.push_back(i);
+	
+	if (choosableQiziList.size() == 0) {
+		for (int i = 0; i < 4; i++) {
+			if (!QiziA[PlayerNum][i].isend && !QiziA[PlayerNum][i].isHome)
+				choosableQiziList.push_back(i);
+		}
 	}
 	int randomChoice = rand() % choosableQiziList.size();
-	return randomChoice;
+	return choosableQiziList[randomChoice];
 }
