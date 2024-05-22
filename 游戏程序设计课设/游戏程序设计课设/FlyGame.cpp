@@ -141,7 +141,6 @@ void Game::QiziBuxing()
 {
 	if (QiziA[PlayerNum][qiziDianji].isjushou == true)
 	{
-
 		touziNum += QiziA[PlayerNum][qiziDianji].jushouCount;
 		QiziA[PlayerNum][qiziDianji].isjushou = false;
 	}
@@ -610,6 +609,8 @@ void Game::Input()
 							QiziA[PlayerNum][i].isStop = true;
 							QiziA[PlayerNum][i].IncreaseNextPointEvent();
 						}
+						PlayerNum++;
+						this->touziTime = true;
 						skilluse = false;
 					}
 				}
