@@ -64,7 +64,8 @@ void Game::Initial()
 	//游戏选人界面
 	if (!tPickBackground.loadFromFile("data/images/ol_bg.jpg")) { cout << "选将界面背景没有找到" << endl; }
 	if (!tyuanshao.loadFromFile("data/images/re_yuanshao.jpg")) { cout << "袁绍图片没有找到" << endl; }
-	if (!tcaopi.loadFromFile("data/images/gz_caopi.jpg")) { cout << "曹丕图片没有找到" << endl; }
+	if(!tcaoren.loadFromFile("data/images/caoren.jpg")){ cout << "曹仁图片没有找到" << endl; }
+	if (!tsunquan.loadFromFile("data/images/re_sunquan.jpg")) { cout << "孙权图片没有找到" << endl; }
 	///游戏进行界面
 	if (!tBackPlay.loadFromFile("data/images/PlayBK08.jpg")) cout << "游戏场景素材没有找到" << endl;
 	if (!tToziBut.loadFromFile("data/images/QIZI4.png")) cout << "骰子素材没有找到" << endl;
@@ -86,7 +87,8 @@ void Game::Initial()
 	if (!tEventChiTu.loadFromFile("data/images/Map/chitu.png")) cout << "赤兔素材没有找到" << endl;
 	if (!tEventWuZhong.loadFromFile("data/images/Map/wuzhong.png")) cout << "无中生有素材没有找到" << endl;
 	if (!tluanji.loadFromFile("data/images/luanji.png"))cout << "乱击素材没有找到" << endl;
-	if (!tfangzhu.loadFromFile("data/images/fangzhu.png"))cout << "放逐素材没有找到" << endl;
+	if (!tjushou.loadFromFile("data/images/jushou.png"))cout << "据守素材没有找到" << endl;
+	if (!tzhiheng.loadFromFile("data/images/zhiheng.png"))cout << "制衡素材没有找到" << endl;
 	text.setFont(font);
 	//跳跃按钮
 	if (!tjumpB.loadFromFile("data/images/jumpB.jpg"))cout << "按钮素材没有找到" << endl;
@@ -110,9 +112,12 @@ void Game::Initial()
 
 	sPickBackground.setTexture(tPickBackground);
 	syuanshao.setTexture(tyuanshao);
-	scaopi.setTexture(tcaopi);
 	sluanji.setTexture(tluanji);
-	sfangzhu.setTexture(tfangzhu);
+	scaoren.setTexture(tcaoren);
+	sjushou.setTexture(tjushou);
+	ssunquan.setTexture(tsunquan);
+	szhiheng.setTexture(tzhiheng);
+
 	sQizi[0] = sQizi1;	sQizi[1] = sQizi2;	sQizi[2] = sQizi3;	sQizi[3] = sQizi4;//方便
 	sjumpB.setTexture(tjumpB);
 
@@ -134,7 +139,12 @@ void Game::Initial()
 
 void Game::QiziBuxing()
 {
+	if (QiziA[PlayerNum][qiziDianji].isjushou == true)
+	{
 
+		touziNum += QiziA[PlayerNum][qiziDianji].jushouCount;
+		QiziA[PlayerNum][qiziDianji].isjushou = false;
+	}
 	//如果当前棋子的isBingLiangCunDuan为true，则骰子数减BingLiangCunDuanCount
 	if (QiziA[PlayerNum][qiziDianji].isBingLiangCunDuan == true)
 	{
@@ -464,14 +474,17 @@ void Game::Input()
 		{
 			if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
 			{
-				sf::Vector2f yuan,yuanscale,cao,caoscale;
-			    sf::Vector2u yuansize,caosize;
+				sf::Vector2f yuan,yuanscale,cao,caoscale,sun,sunscale;
+			    sf::Vector2u yuansize,caosize,sunsize;
 				yuan = syuanshao.getPosition();
 				yuanscale = syuanshao.getScale();
 				yuansize = syuanshao.getTexture()->getSize();
-				cao = scaopi.getPosition();
-				caoscale = scaopi.getScale();
-				caosize = scaopi.getTexture()->getSize();
+				cao = scaoren.getPosition();
+				caoscale = scaoren.getScale();
+				caosize = scaoren.getTexture()->getSize();
+				sun = ssunquan.getPosition();
+				sunscale = ssunquan.getScale();
+				sunsize = ssunquan.getTexture()->getSize();
 				if (sf::Mouse::getPosition(window).x > yuan.x && sf::Mouse::getPosition(window).x<yuan.x + yuansize.x * yuanscale.x
 					&& sf::Mouse::getPosition(window).y>yuan.y && sf::Mouse::getPosition(window).y < yuan.y + yuansize.y * yuanscale.y)
 				{
@@ -485,6 +498,13 @@ void Game::Input()
 					Gamepick = false;
 					GamePlay = true;
 					gamemode = 2;
+				}
+				if (sf::Mouse::getPosition(window).x > sun.x && sf::Mouse::getPosition(window).x<sun.x + sunsize.x * sunscale.x
+					&& sf::Mouse::getPosition(window).y>sun.y && sf::Mouse::getPosition(window).y < sun.y + sunsize.y * sunscale.y)
+				{
+					Gamepick = false;
+					GamePlay = true;
+					gamemode = 3;
 				}
 			}
 		}
@@ -506,7 +526,6 @@ void Game::Input()
 					//cout << "chg" << endl;
 				}
 			}
-			skillcanuse(PlayerNum);
 			if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
 			{
 				sf::Vector2f skill, skillscale;
@@ -531,13 +550,13 @@ void Game::Input()
 									{
 										if (QiziA[i][j].GePos > 10&& QiziA[i][j].GePos<24)
 										{
-											int gepos = QiziA[i][j].GePos - touziNum;
+											int gepos = QiziA[i][j].GePos - touziNum-1;
 											if (gepos >= 5 &&  gepos <= 10)
 											{
 												QiziA[i][j].isDoor = true;
 											}
 											else
-												QiziA[i][j].GePos -= touziNum;
+												QiziA[i][j].GePos -= (touziNum + 1);
 											if (QiziA[i][j].GePos < 0)
 												QiziA[i][j].GePos += 55;
 										}
@@ -546,13 +565,13 @@ void Game::Input()
 									{
 										if (QiziA[i][j].GePos > 24&&QiziA[i][j].GePos<38)
 										{
-											int gepos = QiziA[i][j].GePos - touziNum;
+											int gepos = QiziA[i][j].GePos - touziNum-1;
 											if (gepos >= 19 && gepos <= 24)
 											{
 												QiziA[i][j].isDoor = true;
 											}
 											else
-												QiziA[i][j].GePos -= touziNum;
+												QiziA[i][j].GePos -= (touziNum + 1);
 											if (QiziA[i][j].GePos < 0)
 												QiziA[i][j].GePos += 55;
 										}
@@ -561,13 +580,13 @@ void Game::Input()
 									{
 										if (QiziA[i][j].GePos > 38 && QiziA[i][j].GePos < 52)
 										{
-											int gepos = QiziA[i][j].GePos - touziNum;
+											int gepos = QiziA[i][j].GePos - touziNum-1;
 											if (gepos >= 33 && gepos <= 38)
 											{
 												QiziA[i][j].isDoor = true;
 											}
 											else
-												QiziA[i][j].GePos -= touziNum;
+												QiziA[i][j].GePos -= (touziNum + 1);
 											if (QiziA[i][j].GePos < 0)
 												QiziA[i][j].GePos += 55;
 										}
@@ -580,7 +599,19 @@ void Game::Input()
 				}
 				if (gamemode == 2)
 				{
-
+					skill = sjushou.getPosition();
+					skillscale = sjushou.getScale();
+					skillsize = sjushou.getTexture()->getSize();
+					if (sf::Mouse::getPosition(window).x > skill.x && sf::Mouse::getPosition(window).x<skill.x + skillsize.x * skillscale.x
+						&& sf::Mouse::getPosition(window).y>skill.y && sf::Mouse::getPosition(window).y < skill.y + skillsize.y * skillscale.y && IsPlayerTurn() && skilluse == true)
+					{
+						for (int i = 0; i < 4; i++)
+						{
+							QiziA[PlayerNum][i].isStop = true;
+							QiziA[PlayerNum][i].IncreaseNextPointEvent();
+						}
+						skilluse = false;
+					}
 				}
 			}
 			if (touziTime == false && qiziBuxingTime == false)//不为骰子时间，可选择棋子进行步行
@@ -827,13 +858,15 @@ void Game::Draw()
 		sPickBackground.setPosition(-50, 0);
 		sPickBackground.setScale(0.9f,1.0f);
 		window.draw(sPickBackground);
-		syuanshao.setPosition(20, 200);
+		syuanshao.setPosition(100, 200);
 		syuanshao.setScale(0.6f, 0.6f);
 		window.draw(syuanshao);
-		scaopi.setPosition(300, 200);
-		scaopi.setScale(0.6f, 0.6f);
-		window.draw(scaopi);
-
+		scaoren.setPosition(420, 200);
+		scaoren.setScale(0.6f, 0.6f);
+		window.draw(scaoren);
+		ssunquan.setPosition(740, 200);
+		ssunquan.setScale(0.6f, 0.6f);
+		window.draw(ssunquan);
 	}
 	///游戏进行界面
 	if (GamePlay == true)
@@ -853,12 +886,21 @@ void Game::Draw()
 		}
 		if (gamemode == 2)
 		{
-			window.draw(scaopi);
-			scaopi.setPosition(40, 300);
-			scaopi.setScale(0.3f, 0.3f);
-			window.draw(sfangzhu);
-			sfangzhu.setPosition(40, 450);
-			sfangzhu.setScale(0.5f, 0.5f);
+			window.draw(scaoren);
+			scaoren.setPosition(40, 300);
+			scaoren.setScale(0.3f, 0.3f);
+			window.draw(sjushou);
+			sjushou.setPosition(40, 450);
+			sjushou.setScale(0.5f, 0.5f);
+		}
+		if (gamemode == 3)
+		{
+			window.draw(ssunquan);
+			ssunquan.setPosition(40, 300);
+			ssunquan.setScale(0.3f, 0.3f);
+			window.draw(szhiheng);
+			szhiheng.setPosition(40, 450);
+			szhiheng.setScale(0.5f, 0.5f);
 		}
 		if (touziTime == true && touziInitial == true)//骰子时间并且骰子已初始化
 		{
@@ -975,6 +1017,7 @@ void Game::touziDraw()//绘制骰子
 						PlayerNum = 0;
 					else
 						PlayerNum++;
+					skillcanuse(PlayerNum);
 				} while (PlayerWin[PlayerNum] == true);//若有玩家结束则跳过该玩家
 			}
 			touziInitial = false;
