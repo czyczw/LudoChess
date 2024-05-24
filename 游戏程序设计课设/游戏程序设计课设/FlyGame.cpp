@@ -1,9 +1,9 @@
 ﻿#include "FlyGame.h";
 Event event;
 int gamemode = 0;
-bool skilluse = true;
-void skillcanuse(int n)
-{
+int jumptime[4];
+bool skilluse=true;
+void skillcanuse(int n) {
 	if (n == 0)
 	{
 		skilluse = true;
@@ -21,6 +21,10 @@ Game::Game()
 			QiziA[i][j].game = this;
 			QiziA[i][j].type = j + 1;
 		}
+	}
+	for (int j = 0; j < 4; j++)
+	{
+		jumptime[j] = 0;
 	}
 }
 void Game::GameShanDian()
@@ -720,9 +724,14 @@ void Game::Input()
 			}
 			if (touziTime == false && qiziBuxingTime == false) // 不为骰子时间，可选择棋子进行步行
 			{
-				if (sf::Mouse::getPosition(window).x > jumpbut.x && sf::Mouse::getPosition(window).x < jumpbut.x + jumpbutsize.x * jumpbutscale.x && sf::Mouse::getPosition(window).y > jumpbut.y && sf::Mouse::getPosition(window).y < jumpbut.y + jumpbutsize.y * jumpbutscale.y && IsPlayerTurn())
+				if (sf::Mouse::getPosition(window).x > jumpbut.x && sf::Mouse::getPosition(window).x<jumpbut.x + jumpbutsize.x * jumpbutscale.x
+					&& sf::Mouse::getPosition(window).y>jumpbut.y && sf::Mouse::getPosition(window).y < jumpbut.y + jumpbutsize.y * jumpbutscale.y && IsPlayerTurn()&&jumptime[PlayerNum]>0)
 				{
-					jump = 3;
+					if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
+					{
+						jump = 3;
+						jumptime[PlayerNum] -= 1;
+					}
 				}
 				int AiChoice;
 				if (!IsPlayerTurn())
