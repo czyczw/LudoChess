@@ -24,7 +24,7 @@ Game::Game()
 	}
 	for (int j = 0; j < 4; j++)
 	{
-		jumptime[j] = 3;
+		jumptime[j] = 0;
 	}
 }
 
