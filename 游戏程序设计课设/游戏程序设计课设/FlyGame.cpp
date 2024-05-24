@@ -56,6 +56,10 @@ void Game::GameBingLiangCunDuan()
 	// 将其下回合步数-2
 	QiziA[PlayerNum][qiziDianji].ReduceNextPointEvent();
 }
+void Game::GameTanTiao()
+{
+	jumptime[PlayerNum] ++;
+}
 void Game::Initial()
 {
 	window.setFramerateLimit(60);
@@ -341,67 +345,81 @@ void Game::QiziBuxing()
 					if (QiziA[PlayerNum][qiziDianji].GePos == 55)
 						QiziA[PlayerNum][qiziDianji].GePos = 0;
 #pragma region 事件
-					// 2号格闪电事件
-					// else if (QiziA[PlayerNum][qiziDianji].GePos == 2 && qizibuxingCount == touziNum)
-					// {
-					// 	GameShanDian();
-					// 	break;
-					// }
-					// //3号格乐不思蜀事件
-					// else if (QiziA[PlayerNum][qiziDianji].GePos == 3 && qizibuxingCount == touziNum)
-					// {
-					// 	GameLeBuSiShu();
-					// 	break;
-					// }
-					// // 4号格兵粮寸断事件
-					// else if (QiziA[PlayerNum][qiziDianji].GePos == 4 && qizibuxingCount == touziNum)
-					// {
-					// 	GameBingLiangCunDuan();
-					// }
-					// else if (QiziA[PlayerNum][qiziDianji].GePos == 5 && qizibuxingCount == touziNum)
-					// {
-					// 	QiziA[PlayerNum][qiziDianji].AdvanceEvent(1);
-					// }
-					else if (QiziA[PlayerNum][qiziDianji].GePos == 1 && qizibuxingCount == touziNum)
+	#pragma region 弹跳
+					else if (QiziA[PlayerNum][qiziDianji].GePos == 52 && qizibuxingCount == touziNum)
 					{
-						QiziA[PlayerNum][qiziDianji].BackEvent(2);
+						GameTanTiao();
+						break;
 					}
-					else if (QiziA[PlayerNum][qiziDianji].GePos == 2 && qizibuxingCount == touziNum)
-					{
-						QiziA[PlayerNum][qiziDianji].BackEvent(2);
-					}
-					else if (QiziA[PlayerNum][qiziDianji].GePos == 3 && qizibuxingCount == touziNum)
-					{
-						QiziA[PlayerNum][qiziDianji].BackEvent(2);
-					}
-					else if (QiziA[PlayerNum][qiziDianji].GePos == 4 && qizibuxingCount == touziNum)
-					{
-						QiziA[PlayerNum][qiziDianji].BackEvent(2);
-					}
+	#pragma endregion
+	#pragma region 闪电
 					else if (QiziA[PlayerNum][qiziDianji].GePos == 5 && qizibuxingCount == touziNum)
 					{
-						QiziA[PlayerNum][qiziDianji].BackEvent(2);
+						GameShanDian();
+						break;
 					}
-					else if (QiziA[PlayerNum][qiziDianji].GePos == 6 && qizibuxingCount == touziNum)
+					else if (QiziA[PlayerNum][qiziDianji].GePos == 19 && qizibuxingCount == touziNum)
 					{
-						QiziA[PlayerNum][qiziDianji].BackEvent(2);
+						GameShanDian();
+						break;
 					}
-					else if (QiziA[PlayerNum][qiziDianji].GePos == 7 && qizibuxingCount == touziNum)
+					else if (QiziA[PlayerNum][qiziDianji].GePos == 30 && qizibuxingCount == touziNum)
 					{
-						QiziA[PlayerNum][qiziDianji].BackEvent(2);
+						GameShanDian();
+						break;
 					}
-					else if (QiziA[PlayerNum][qiziDianji].GePos == 8 && qizibuxingCount == touziNum)
+					else if (QiziA[PlayerNum][qiziDianji].GePos == 44 && qizibuxingCount == touziNum)
 					{
-						QiziA[PlayerNum][qiziDianji].BackEvent(2);
+						GameShanDian();
+						break;
 					}
-					else if (QiziA[PlayerNum][qiziDianji].GePos == 9 && qizibuxingCount == touziNum)
+	#pragma endregion
+	#pragma region 乐不思蜀
+					else if (QiziA[PlayerNum][qiziDianji].GePos == 16 && qizibuxingCount == touziNum)
 					{
-						QiziA[PlayerNum][qiziDianji].BackEvent(2);
+						GameLeBuSiShu();
+						break;
 					}
+					else if (QiziA[PlayerNum][qiziDianji].GePos == 41 && qizibuxingCount == touziNum)
+					{
+						GameLeBuSiShu();
+						break;
+					}
+	#pragma endregion
+	#pragma region 兵粮寸断
+					else if (QiziA[PlayerNum][qiziDianji].GePos == 2 && qizibuxingCount == touziNum)
+					{
+						GameBingLiangCunDuan();
+					}
+					else if (QiziA[PlayerNum][qiziDianji].GePos == 30 && qizibuxingCount == touziNum)
+					{
+						GameBingLiangCunDuan();
+					}
+	#pragma endregion
+	#pragma region 前进
 					else if (QiziA[PlayerNum][qiziDianji].GePos == 10 && qizibuxingCount == touziNum)
 					{
+						QiziA[PlayerNum][qiziDianji].AdvanceEvent(5);
+					}
+					else if (QiziA[PlayerNum][qiziDianji].GePos == 24 && qizibuxingCount == touziNum)
+					{
+						QiziA[PlayerNum][qiziDianji].AdvanceEvent(5);
+					}
+					else if (QiziA[PlayerNum][qiziDianji].GePos == 35 && qizibuxingCount == touziNum)
+					{
+						QiziA[PlayerNum][qiziDianji].AdvanceEvent(5);
+					}
+					else if (QiziA[PlayerNum][qiziDianji].GePos == 49 && qizibuxingCount == touziNum)
+					{
+						QiziA[PlayerNum][qiziDianji].AdvanceEvent(5);
+					}
+#pragma endregion
+	#pragma region 后退
+					else if (QiziA[PlayerNum][qiziDianji].GePos == 0 && qizibuxingCount == touziNum)
+					{
 						QiziA[PlayerNum][qiziDianji].BackEvent(2);
 					}
+#pragma endregion
 #pragma endregion
 					else
 						QiziA[PlayerNum][qiziDianji].GePos += 1;
