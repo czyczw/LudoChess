@@ -179,4 +179,8 @@ public:
 	void DrawDebug();
 	int AiDoChoice();
 	bool IsPlayerTurn();
+	void GameLeBuSiShu();
+	void GameBingLiangCunDuan();
+	void GameShanDian();
+	void GameTanTiao();
 };
