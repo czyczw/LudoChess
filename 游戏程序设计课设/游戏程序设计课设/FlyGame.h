@@ -33,7 +33,6 @@ public:
 	int jushouCount;
 	int BingLiangCunDuanCount;//兵粮寸断数值
 	int type;
-	int jumptime;
 	BaseClass* game;
 	void AdvanceEvent(int n)//前进事件
 	{
