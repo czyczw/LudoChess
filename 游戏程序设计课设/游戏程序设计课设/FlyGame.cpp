@@ -614,6 +614,62 @@ void Game::Input()
 						skilluse = false;
 					}
 				}
+				if (gamemode == 3)
+				{
+					skill = szhiheng.getPosition();
+					skillscale = szhiheng.getScale();
+					skillsize = szhiheng.getTexture()->getSize();
+					if (sf::Mouse::getPosition(window).x > skill.x && sf::Mouse::getPosition(window).x<skill.x + skillsize.x * skillscale.x
+						&& sf::Mouse::getPosition(window).y>skill.y && sf::Mouse::getPosition(window).y < skill.y + skillsize.y * skillscale.y && IsPlayerTurn() && skilluse == true)
+					{
+						for (int j = 0; j < 4; j++)
+						{
+							int ischosen = 0;
+							if (QiziA[PlayerNum][j].isend)
+								continue;
+							if (QiziA[PlayerNum][j].isHome == true)
+							{
+								if (sf::Mouse::getPosition(window).x > QiziHomePos1[PlayerNum][j][0] - 20 + 20 //点击在家位置
+									&& sf::Mouse::getPosition(window).x < QiziHomePos1[PlayerNum][j][0] + 20 + 20
+									&& sf::Mouse::getPosition(window).y > QiziHomePos1[PlayerNum][j][1] - 20 + 20
+									&& sf::Mouse::getPosition(window).y < QiziHomePos1[PlayerNum][j][1] + 20 + 20)
+								{
+									QiziA[PlayerNum][j].isChosen == true;
+									ischosen++;
+								}
+							}
+							else if (QiziA[PlayerNum][j].isDoor == true)
+							{
+								if (sf::Mouse::getPosition(window).x > DPosition[QiziA[PlayerNum][j].prex][0] + QiziA[PlayerNum][j].prex2[0] - 20 + 20 //棋子在家门口位置
+									&& sf::Mouse::getPosition(window).x < DPosition[QiziA[PlayerNum][j].prex][0] + QiziA[PlayerNum][j].prex2[0] + 20 + 20//(即家门第一格加偏移量)
+									&& sf::Mouse::getPosition(window).y > DPosition[QiziA[PlayerNum][j].prex][1] + QiziA[PlayerNum][j].prex2[1] - 20 + 20
+									&& sf::Mouse::getPosition(window).y < DPosition[QiziA[PlayerNum][j].prex][1] + QiziA[PlayerNum][j].prex2[1] + 20 + 20)
+								{
+									QiziA[PlayerNum][j].isChosen == true;
+									ischosen++;
+								}
+							}
+							else
+							{
+								if (sf::Mouse::getPosition(window).x > DPosition[QiziA[PlayerNum][j].GePos][0] - 20 + 20//以棋子为中心上下左右分别20为点击有效范围
+									&& sf::Mouse::getPosition(window).x < DPosition[QiziA[PlayerNum][j].GePos][0] + 20 + 20
+									&& sf::Mouse::getPosition(window).y > DPosition[QiziA[PlayerNum][j].GePos][1] - 20 + 20
+									&& sf::Mouse::getPosition(window).y < DPosition[QiziA[PlayerNum][j].GePos][1] + 20 + 20)
+								{
+									QiziA[PlayerNum][j].isChosen == true;
+									ischosen++;
+								}
+							}
+							if (ischosen == 2)
+							{
+								for (int j = 0; j < 4; j++) 
+								{
+
+								}
+							}
+						}
+					}
+				}
 			}
 			if (touziTime == false && qiziBuxingTime == false)//不为骰子时间，可选择棋子进行步行
 			{

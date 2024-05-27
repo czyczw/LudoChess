@@ -29,8 +29,9 @@ public:
 	bool isend;//是否结束
 	bool isStop;//是否停止
 	bool isBingLiangCunDuan=false;//是否兵粮寸断
-	bool isjushou;
-	int jushouCount;
+	bool isjushou; //据守是否发动
+	int jushouCount; //据守数值
+	bool isChosen;
 	int BingLiangCunDuanCount;//兵粮寸断数值
 	int type;
 	int jumptime;
