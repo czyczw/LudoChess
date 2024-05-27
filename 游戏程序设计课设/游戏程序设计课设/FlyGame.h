@@ -34,15 +34,22 @@ public:
 	bool isChosen;
 	int BingLiangCunDuanCount;//兵粮寸断数值
 	int type;
-	int jumptime;
 	BaseClass* game;
 	void AdvanceEvent(int n)//前进事件
 	{
-		GePos += n;
+		GePos += n+1;
+		if (GePos >= DITUSIZE)
+		{
+			GePos -= DITUSIZE;
+		}
 	}
 	void BackEvent(int n)//后退事件
 	{
-		GePos -= n;
+		GePos -= n-1;
+		if (GePos < 0)
+		{
+			GePos += DITUSIZE;
+		}
 	}
 	//骰一次骰子，如果为偶数则回家
 	void DisasterEvent()
@@ -180,4 +187,8 @@ public:
 	void DrawDebug();
 	int AiDoChoice();
 	bool IsPlayerTurn();
+	void GameLeBuSiShu();
+	void GameBingLiangCunDuan();
+	void GameShanDian();
+	void GameTanTiao();
 };
