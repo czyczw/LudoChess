@@ -33,6 +33,10 @@ void Game::GameShanDian()
 	this->touziTime = true;
 	QiziA[PlayerNum][qiziDianji].DisasterEvent();
 	PlayerNum++;
+	if(PlayerNum==4)
+	{
+		PlayerNum = 0;
+	}
 	qiziBuxingTime = false;
 }
 void Game::GameLeBuSiShu()
@@ -48,6 +52,10 @@ void Game::GameLeBuSiShu()
 		}
 	}
 	PlayerNum++;
+	if (PlayerNum == 4)
+	{
+		PlayerNum = 0;
+	}
 	qiziBuxingTime = false;
 }
 void Game::GameBingLiangCunDuan()
@@ -1073,6 +1081,10 @@ void Game::touzi() // 初始化骰子数
 				QiziA[PlayerNum][j].isStop = false;
 			}
 			PlayerNum++;
+			if (PlayerNum == 4)
+			{
+				PlayerNum = 0;
+			}
 			qiziBuxingTime = false;
 			break;
 		}
