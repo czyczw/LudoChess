@@ -147,6 +147,38 @@ void Game::Initial()
 		cout << "棋子3素材没有找到" << endl;
 	if (!tQizi4.loadFromFile("data/images/QZbq.png"))
 		cout << "棋子4素材没有找到" << endl;
+	if (!tr1.loadFromFile("data/images/r1.png"))
+		cout << "棋子1素材没有找到" << endl;
+	if (!tr2.loadFromFile("data/images/r2.png"))
+		cout << "棋子2素材没有找到" << endl;
+	if (!tr3.loadFromFile("data/images/r3.png"))
+		cout << "棋子3素材没有找到" << endl;
+	if (!tr4.loadFromFile("data/images/r4.png"))
+		cout << "棋子4素材没有找到" << endl;
+	if (!tp1.loadFromFile("data/images/p1.png"))
+		cout << "棋子1素材没有找到" << endl;
+	if (!tp2.loadFromFile("data/images/p2.png"))
+		cout << "棋子2素材没有找到" << endl;
+	if (!tp3.loadFromFile("data/images/p3.png"))
+		cout << "棋子3素材没有找到" << endl;
+	if (!tp4.loadFromFile("data/images/p4.png"))
+		cout << "棋子4素材没有找到" << endl;
+	if (!ty1.loadFromFile("data/images/y1.png"))
+		cout << "棋子1素材没有找到" << endl;
+	if (!ty2.loadFromFile("data/images/y2.png"))
+		cout << "棋子2素材没有找到" << endl;
+	if (!ty3.loadFromFile("data/images/y3.png"))
+		cout << "棋子3素材没有找到" << endl;
+	if (!ty4.loadFromFile("data/images/y4.png"))
+		cout << "棋子4素材没有找到" << endl;
+	if (!tb1.loadFromFile("data/images/b1.png"))
+		cout << "棋子1素材没有找到" << endl;
+	if (!tb2.loadFromFile("data/images/b2.png"))
+		cout << "棋子2素材没有找到" << endl;
+	if (!tb3.loadFromFile("data/images/b3.png"))
+		cout << "棋子3素材没有找到" << endl;
+	if (!tb4.loadFromFile("data/images/b4.png"))
+		cout << "棋子4素材没有找到" << endl;
 	if (!t_touzi.loadFromFile("data/images/tou1.jpg"))
 		cout << "16骰子素材没有找到" << endl;
 	if (!t_touzi2.loadFromFile("data/images/tou2.jpg"))
@@ -202,6 +234,22 @@ void Game::Initial()
 	sQizi2.setTexture(tQizi2);
 	sQizi3.setTexture(tQizi3);
 	sQizi4.setTexture(tQizi4);
+	sr1.setTexture(tr1);
+	sr2.setTexture(tr2);
+	sr3.setTexture(tr3);
+	sr4.setTexture(tr4);
+	sp1.setTexture(tp1);
+	sp2.setTexture(tp2);
+	sp3.setTexture(tp3);
+	sp4.setTexture(tp4);
+	sy1.setTexture(ty1);
+	sy2.setTexture(ty2);
+	sy3.setTexture(ty3);
+	sy4.setTexture(ty4);
+	sb1.setTexture(tb1);
+	sb2.setTexture(tb2);
+	sb3.setTexture(tb3);
+	sb4.setTexture(tb4);
 	stouyin.setTexture(ttouyin);
 	s_touzi.setTexture(t_touzi);
 	s_touzi2.setTexture(t_touzi2);
@@ -226,6 +274,22 @@ void Game::Initial()
 	sQizi[1] = sQizi2;
 	sQizi[2] = sQizi3;
 	sQizi[3] = sQizi4; // 方便
+	qizir[0] = sr1;
+	qizir[1] = sr2;
+	qizir[2] = sr3;
+	qizir[3] = sr4;
+	qizip[0] = sp1;
+	qizip[1] = sp2;
+	qizip[2] = sp3;
+	qizip[3] = sp4;
+	qiziy[0] = sy1;
+	qiziy[1] = sy2;
+	qiziy[2] = sy3;
+	qiziy[3] = sy4;
+	qizib[0] = sb1;
+	qizib[1] = sb2;
+	qizib[2] = sb3;
+	qizib[3] = sb4;
 	sjumpB.setTexture(tjumpB);
 
 	stouyin.setOrigin(10, 10); // 设置投影初始位置偏移量
@@ -530,8 +594,26 @@ void Game::QiziBuxing()
 	// 绘制投影和棋子
 	stouyin.setPosition(DPosition[QiziA[PlayerNum][qiziDianji].GePos][0], DPosition[QiziA[PlayerNum][qiziDianji].GePos][1]);
 	window.draw(stouyin);
-	sQizi[PlayerNum].setPosition(DPosition[QiziA[PlayerNum][qiziDianji].GePos][0], DPosition[QiziA[PlayerNum][qiziDianji].GePos][1]);
-	window.draw(sQizi[PlayerNum]);
+	if (PlayerNum == 0)
+	{
+		qizip[qiziDianji].setPosition(DPosition[QiziA[PlayerNum][qiziDianji].GePos][0], DPosition[QiziA[PlayerNum][qiziDianji].GePos][1]);
+		window.draw(qizip[qiziDianji]);
+	}
+	else if (PlayerNum == 1)
+	{
+		qizir[qiziDianji].setPosition(DPosition[QiziA[PlayerNum][qiziDianji].GePos][0], DPosition[QiziA[PlayerNum][qiziDianji].GePos][1]);
+		window.draw(qizir[qiziDianji]);
+	}
+	else if (PlayerNum == 2)
+	{
+		qiziy[qiziDianji].setPosition(DPosition[QiziA[PlayerNum][qiziDianji].GePos][0], DPosition[QiziA[PlayerNum][qiziDianji].GePos][1]);
+		window.draw(qiziy[qiziDianji]);
+	}
+	else if (PlayerNum == 3)
+	{
+		qizib[qiziDianji].setPosition(DPosition[QiziA[PlayerNum][qiziDianji].GePos][0], DPosition[QiziA[PlayerNum][qiziDianji].GePos][1]);
+		window.draw(qizib[qiziDianji]);
+	}
 }
 
 void Game::Input()
@@ -1156,11 +1238,41 @@ void Game::Draw()
 
 		for (int i = 0; i < 4; i++)
 		{
-			sQizi[i].setScale(1.4, 1.4);					 // 放大
-			sQizi[i].setOrigin(0, 0);						 // 还原初始偏移（因为drawplay中绘制棋子会有初始偏移）
-			sQizi[i].setPosition(570, 275 + WinPai[i] * 60); // 根据排名绘制不同y值的位置
+			for (int j = 0;j < 4;j++)
+			{
+				if (i == 0)
+				{
+					qizip[j].setScale(1.4, 1.4);
+					qizip[j].setOrigin(0, 0);
+					qizip[j].setPosition(570, 275 + WinPai[i] * 60);
 
-			window.draw(sQizi[i]);
+					window.draw(qizip[j]);
+				}
+				if (i == 1)
+				{
+					qizir[j].setScale(1.4, 1.4);
+					qizir[j].setOrigin(0, 0);
+					qizir[j].setPosition(570, 275 + WinPai[i] * 60);
+
+					window.draw(qizir[j]);
+				}
+				if (i == 2)
+				{
+					qiziy[j].setScale(1.4, 1.4);
+					qiziy[j].setOrigin(0, 0);
+					qiziy[j].setPosition(570, 275 + WinPai[i] * 60);
+
+					window.draw(qizip[j]);
+				}
+				if (i == 3)
+				{
+					qizib[j].setScale(1.4, 1.4);
+					qizib[j].setOrigin(0, 0);
+					qizib[j].setPosition(570, 275 + WinPai[i] * 60);
+
+					window.draw(qizib[j]);
+				}
+			}
 		}
 	}
 	DrawDebug();
@@ -1303,13 +1415,55 @@ void Game::DrawPlay()
 	{
 		if (i == PlayerNum && touziTime == false) // 将该轮回玩家的棋子放大
 		{
-			sQizi[PlayerNum].setOrigin(7, 7); // 放大会有偏移，设置初始位置偏移修正
-			sQizi[PlayerNum].setScale(1.3, 1.3);
+			for (int j = 0;j < 4;j++)
+			{
+				if (i == 0)
+				{
+					qizip[j].setOrigin(7, 7); // 放大会有偏移，设置初始位置偏移修正
+					qizip[j].setScale(1.3, 1.3);
+				}
+				else if (i == 1)
+				{
+					qizir[j].setOrigin(7, 7); 
+					qizir[j].setScale(1.3, 1.3);
+				}
+				else if (i == 2)
+				{
+					qiziy[j].setOrigin(7, 7);
+					qiziy[j].setScale(1.3, 1.3);
+				}
+				else if (i == 3)
+				{
+					qizib[j].setOrigin(7, 7); 
+					qizib[j].setScale(1.3, 1.3);
+				}
+			}
 		}
 		else
 		{
-			sQizi[i].setScale(1, 1); // 该轮回结束还原
-			sQizi[i].setOrigin(0, 0);
+			for (int j = 0;j < 4;j++)
+			{
+				if (i == 0)
+				{
+					qizip[j].setOrigin(1, 1); // 放大会有偏移，设置初始位置偏移修正
+					qizip[j].setScale(1, 1);
+				}
+				else if (i == 1)
+				{
+					qizir[j].setOrigin(1, 1);
+					qizir[j].setScale(1, 1);
+				}
+				else if (i == 2)
+				{
+					qiziy[j].setOrigin(1, 1);
+					qiziy[j].setScale(1, 1);
+				}
+				else if (i == 3)
+				{
+					qizib[j].setOrigin(1, 1);
+					qizib[j].setScale(1, 1);
+				}
+			}
 		}
 		for (int j = 0; j < 4; j++)
 		{
@@ -1322,8 +1476,26 @@ void Game::DrawPlay()
 						stouyin.setPosition(QiziHomePos1[i][j][0], QiziHomePos1[i][j][1]); // 当前玩家棋子加投影
 						window.draw(stouyin);
 					}
-					sQizi[i].setPosition(QiziHomePos1[i][j][0], QiziHomePos1[i][j][1]);
-					window.draw(sQizi[i]);
+					if (i == 0)
+					{
+						qizip[j].setPosition(QiziHomePos1[i][j][0], QiziHomePos1[i][j][1]);
+						window.draw(qizip[j]);
+					}
+					else if (i == 1)
+					{
+						qizir[j].setPosition(QiziHomePos1[i][j][0], QiziHomePos1[i][j][1]);
+						window.draw(qizir[j]);
+					}
+					else if (i == 2)
+					{
+						qiziy[j].setPosition(QiziHomePos1[i][j][0], QiziHomePos1[i][j][1]);
+						window.draw(qiziy[j]);
+					}
+					else if (i == 3)
+					{
+						qizib[j].setPosition(QiziHomePos1[i][j][0], QiziHomePos1[i][j][1]);
+						window.draw(qizib[j]);
+					}
 				}
 				else // 在门口
 				{
@@ -1332,8 +1504,26 @@ void Game::DrawPlay()
 						stouyin.setPosition(DPosition[QiziA[i][j].prex][0] + QiziA[i][j].prex2[0], DPosition[QiziA[i][j].prex][1] + QiziA[i][j].prex2[1]);
 						window.draw(stouyin); // 当前玩家棋子加投影
 					}
-					sQizi[i].setPosition(DPosition[QiziA[i][j].prex][0] + QiziA[i][j].prex2[0], DPosition[QiziA[i][j].prex][1] + QiziA[i][j].prex2[1]);
-					window.draw(sQizi[i]);
+					if (i == 0)
+					{
+						qizip[j].setPosition(DPosition[QiziA[i][j].prex][0] + QiziA[i][j].prex2[0], DPosition[QiziA[i][j].prex][1] + QiziA[i][j].prex2[1]);
+						window.draw(qizip[j]);
+					}
+					else if (i == 1)
+					{
+						qizir[j].setPosition(DPosition[QiziA[i][j].prex][0] + QiziA[i][j].prex2[0], DPosition[QiziA[i][j].prex][1] + QiziA[i][j].prex2[1]);
+						window.draw(qizir[j]);
+					}
+					else if (i == 2)
+					{
+						qiziy[j].setPosition(DPosition[QiziA[i][j].prex][0] + QiziA[i][j].prex2[0], DPosition[QiziA[i][j].prex][1] + QiziA[i][j].prex2[1]);
+						window.draw(qiziy[j]);
+					}
+					else if (i == 3)
+					{
+						qizib[j].setPosition(DPosition[QiziA[i][j].prex][0] + QiziA[i][j].prex2[0], DPosition[QiziA[i][j].prex][1] + QiziA[i][j].prex2[1]);
+						window.draw(qizib[j]);
+					}
 				}
 			}
 
@@ -1350,13 +1540,49 @@ void Game::DrawPlay()
 							stouyin.setPosition(DPosition[QiziA[i][j].GePos][0], DPosition[QiziA[i][j].GePos][1]);
 							window.draw(stouyin); // 当前玩家棋子加投影
 						}
-						sQizi[i].setPosition(DPosition[QiziA[i][j].GePos][0], DPosition[QiziA[i][j].GePos][1]);
-						window.draw(sQizi[i]);
+						if (i == 0)
+						{
+							qizip[j].setPosition(DPosition[QiziA[i][j].GePos][0], DPosition[QiziA[i][j].GePos][1]);
+							window.draw(qizip[j]);
+						}
+						else if (i == 1)
+						{
+							qizir[j].setPosition(DPosition[QiziA[i][j].GePos][0], DPosition[QiziA[i][j].GePos][1]);
+							window.draw(qizir[j]);
+						}
+						else if (i == 2)
+						{
+							qiziy[j].setPosition(DPosition[QiziA[i][j].GePos][0], DPosition[QiziA[i][j].GePos][1]);
+							window.draw(qiziy[j]);
+						}
+						else if (i == 3)
+						{
+							qizib[j].setPosition(DPosition[QiziA[i][j].GePos][0], DPosition[QiziA[i][j].GePos][1]);
+							window.draw(qizib[j]);
+						}
 					}
 					else
 					{
-						sQizi[i].setPosition(QiziHomePos1[i][j][0], QiziHomePos1[i][j][1]);
-						window.draw(sQizi[i]); // 玩家只有结束后棋子不给予投影，表示棋子任务已结束且不可点击操作
+						if (i == 0)
+						{
+							qizip[j].setPosition(QiziHomePos1[i][j][0], QiziHomePos1[i][j][1]);
+							window.draw(qizip[j]);
+						}// 玩家只有结束后棋子不给予投影，表示棋子任务已结束且不可点击操作
+						else if (i == 1)
+						{
+							qizir[j].setPosition(QiziHomePos1[i][j][0], QiziHomePos1[i][j][1]);
+							window.draw(qizir[j]);
+						}
+						else if (i == 2)
+						{
+							qiziy[j].setPosition(QiziHomePos1[i][j][0], QiziHomePos1[i][j][1]);
+							window.draw(qiziy[j]);
+						}
+						else if (i == 3)
+						{
+							qizib[j].setPosition(QiziHomePos1[i][j][0], QiziHomePos1[i][j][1]);
+							window.draw(qizib[j]);
+						}
 					}
 				}
 			}
