@@ -95,8 +95,8 @@ public:
 	bool gameQuit, gameOver;  //游戏是否结束
 	bool debugMode;
 	int Window_Width, Window_Height; //窗口大小
-	Texture tBackBegin, tBeginButton1, tBeginButton2, tBackPlay, tToziBut, tQizi1, tQizi2, tQizi3, tQizi4, tPaiHang, ttouyin;//创建纹理对象
-	Sprite sBackBegin, sBeginButton, sBackPlay, sToziBut, sQizi1, sQizi2, sQizi3, sQizi4, sPaiHang, stouyin;//创建精灵对象
+	Texture tBackBegin, tBeginButton1, tBeginButton2, tBackPlay, tToziBut, tQizi1, tQizi2, tQizi3, tQizi4, tPaiHang, ttouyin,tr1,tr2,tr3,tr4, tp1, tp2, tp3, tp4, ty1, ty2, ty3, ty4, tb1, tb2, tb3, tb4;//创建纹理对象
+	Sprite sBackBegin, sBeginButton, sBackPlay, sToziBut, sQizi1, sQizi2, sQizi3, sQizi4, sPaiHang, stouyin, sr1, sr2, sr3, sr4, sp1, sp2, sp3, sp4, sy1, sy2, sy3, sy4, sb1, sb2, sb3, sb4;//创建精灵对象
 	Texture tEventShan, tEventWuZhong, tEventLeBu, tEventBingLiang, tEventShanDian, tEventChiTu;
 	Sprite sEventShan, sEventWuZhong, sEventLeBu, sEventBingLiang, sEventShanDian, sEventChiTu;
 	Texture tPickBackground,tyuanshao,tluanji,tjumpB;
@@ -105,7 +105,11 @@ public:
 	Sprite scaoren, sjushou, ssunquan, szhiheng;
 
 	sf::IntRect BeginButton;
-	Sprite sQizi[4] = { sQizi1,sQizi2,sQizi3,sQizi4 };
+	Sprite sQizi[4] = {sQizi1,sQizi2,sQizi3,sQizi4};
+	Sprite qizir[4] = {sr1,sr2,sr3,sr4};
+	Sprite qizip[4] = { sp1,sp2,sp3,sp4 };
+	Sprite qiziy[4] = { sy1,sy2,sy3,sy4 };
+	Sprite qizib[4] = { sb1,sb2,sb3,sb4 };
 	Text text;
 	Font font;
 	SoundBuffer sbfly, sbjump, sbzhuang, sbyeah, sbtouzi;//飞棋跳棋音效
